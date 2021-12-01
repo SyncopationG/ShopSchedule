@@ -33,6 +33,7 @@ class Nsga:
         self.record = [[], [], []]
         self.max_tabu = 3 * self.schedule.n * self.schedule.m
         individual = range(self.pop_size)
+        self.obj_rank1 = set()
         # (code, mac, tech)
         self.tabu_list = [[[] for _ in individual], [[] for _ in individual], [[] for _ in individual]]
 
@@ -40,6 +41,7 @@ class Nsga:
         self.pop = [[], []]
         self.pop_child = [[], []]
         self.record = [[], [], []]
+        self.obj_rank1 = set()
         individual = range(self.pop_size)
         self.tabu_list = [[[] for _ in individual], [[] for _ in individual], [[] for _ in individual]]
 
@@ -54,8 +56,8 @@ class Nsga:
         self.pop_child[1].append(self.get_obj(info))
 
     def show_generation(self, g):
-        Utils.print("Generation {:<4} Runtime {:<8.4f} Pareto rate: {:<.2f}".format(
-            g, self.record[1][g] - self.record[0][g], self.record[2][g]))
+        Utils.print("Generation {:<4} Runtime {:<8.4f} Pareto rate: {:<.2f} Objective：{}".format(
+            g, self.record[1][g] - self.record[0][g], self.record[2][g], self.obj_rank1))
 
     @staticmethod
     def selection_elite_strategy(select_pareto):
@@ -101,12 +103,14 @@ class Nsga:
         index = self.func_selection(select_pareto)
         pareto_front = []
         self.pop = [[], [], []]
+        self.obj_rank1 = set()
         for i in range(self.pop_size):
             b = index[i]
             self.pop[0].append(info_copy[b])
             self.pop[1].append(obj_copy[b])
             if b in f[0]:
                 pareto_front.append(i)
+                self.obj_rank1.add(str(obj_copy[b]))
         self.record[2].append(len(pareto_front) / self.pop_size)
         self.pop_child = [[], [], []]
 
