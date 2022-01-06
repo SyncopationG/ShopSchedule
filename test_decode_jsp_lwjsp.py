@@ -38,6 +38,9 @@ def main(instance="example"):
     # solution = problem.decode_machine_based(code)
     # solution = problem.decode_machine_based_limited_wait(code)
     """解码结果"""
+    print(solution.schedule.machine[0].idle)
+    print(Objective.total_workload(solution))
+    print(Objective.max_workload(solution))
     solution.print()
     solution.save_code_to_txt("./Result/Code/%s.txt" % instance)
     solution.save_gantt_chart_to_csv("./Result/GanttChart/%s.csv" % instance)

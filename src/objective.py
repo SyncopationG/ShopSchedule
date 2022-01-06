@@ -3,6 +3,27 @@ import numpy as np
 
 class Objective:
     @staticmethod
+    def total_workload(info):  # 机器的总负荷
+        a = 0
+        for machine in info.schedule.machine.values():
+            a += machine.end
+            for i, j in zip(machine.idle[0][:-1], machine.idle[1][:-1]):
+                k = j - i
+                a -= k
+        return a
+
+    @staticmethod
+    def max_workload(info):  # 机器的最大负荷
+        a = []
+        for machine in info.schedule.machine.values():
+            b = machine.end
+            for i, j in zip(machine.idle[0][:-1], machine.idle[1][:-1]):
+                k = j - i
+                b -= k
+            a.append(b)
+        return max(a)
+
+    @staticmethod
     def makespan(info):  # 工期
         return max([machine.end for machine in info.schedule.machine.values()]) / info.schedule.time_unit
 

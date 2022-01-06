@@ -16,7 +16,7 @@ Job,Operation,Machine,Start,Duration,End,Worker
 3,3,6,9,8,17,None
 3,4,1,18,9,27,None
 3,5,2,27,1,28,None
-3,6,5,38,7,45,None
+3,6,5,42,7,49,None
 4,1,2,8,5,13,None
 4,2,1,13,5,18,None
 4,3,3,22,5,27,None
@@ -33,5 +33,5 @@ Job,Operation,Machine,Start,Duration,End,Worker
 6,2,4,16,3,19,None
 6,3,6,19,9,28,None
 6,4,1,28,10,38,None
-6,5,5,45,4,49,None
-6,6,3,49,1,50,None
+6,5,5,38,4,42,None
+6,6,3,42,1,43,None
