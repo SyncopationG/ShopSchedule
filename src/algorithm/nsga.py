@@ -187,7 +187,7 @@ class NsgaJsp(Nsga):
         if p[0] < self.rc:
             code1, code2 = self.pop[0][i].ga_crossover_sequence(self.pop[0][j])
             self.decode_update(code1)
-            self.decode_update(code2)
+            # self.decode_update(code2)
 
     def do_mutation(self, i, p):
         if p[0] < self.rm:

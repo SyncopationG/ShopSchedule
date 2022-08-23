@@ -1,0 +1,1 @@
+{'code': [0, 0, 2, 4, 2, 4, 1, 4, 3, 3, 1, 2, 0, 3, 1], 'route': None, 'mac': None, 'wok': None}

@@ -1,0 +1,5 @@
+Job,Operation,Machine,Start,Duration,End,Worker
+1,1,2,4,2,6,None
+1,2,1,0,4,4,None
+2,1,2,7,2,9,None
+2,2,1,4,3,7,None

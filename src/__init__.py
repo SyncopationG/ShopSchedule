@@ -25,7 +25,17 @@ INSTANCE_LIST_JSP = """
 ft06
 """
 INSTANCE_LIST_FJSP = """
-kacem1
+kacem4
+mk1
+mk2
+mk3
+mk4
+mk5
+mk6
+mk7
+mk8
+mk9
+mk10
 """
 INSTANCE_LIST_FSP = """
 car1
