@@ -43,11 +43,11 @@ class Ga:
         self.individual = range(self.pop_size)
         self.tabu_list = [[[] for _ in self.individual], [[] for _ in self.individual], [[] for _ in self.individual]]
         # for selection
-        self.pop_father_copy = [[], [], []]
-        self.pop_father_tabu_copy = [[[] for _ in self.individual], [[] for _ in self.individual],
-                                     [[] for _ in self.individual]]
-        self.pop_selection_pool = [[], [], []]
-        self.pop_selection_tabu_pool = [[], [], []]
+        self.pop_copy = [[], [], []]
+        self.tabu_copy = [[[] for _ in self.individual], [[] for _ in self.individual],
+                          [[] for _ in self.individual]]
+        self.selection_pool = [[], [], []]
+        self.selection_tabu_pool = [[], [], []]
 
     def clear(self):
         self.best = [None, None, None, [[], [], []]]
@@ -87,6 +87,24 @@ class Ga:
             self.tabu_list[k][i] = []
         self.replace_best(info_new, obj_new, fit_new)
 
+    def replace_individual_comp(self, i, info_new, info_new2):
+        obj_new, fit_new = self.get_obj_fit(info_new)
+        obj_new1, fit_new1 = self.pop_copy[1][i], self.pop_copy[2][i]
+        obj_new2, fit_new2 = self.get_obj_fit(info_new2)
+        fit_list = [fit_new, fit_new1, fit_new2]
+        max_fit = max(fit_list)
+        idx_max_fit = fit_list.index(max_fit)
+        if idx_max_fit == 1:
+            info_new, obj_new, fit_new = self.pop_copy[0][i], obj_new1, fit_new1
+        elif idx_max_fit == 2:
+            info_new, obj_new, fit_new = info_new2, obj_new2, fit_new2
+        self.pop[0][i] = info_new
+        self.pop[1][i] = obj_new
+        self.pop[2][i] = fit_new
+        for k in range(3):
+            self.tabu_list[k][i] = []
+        self.replace_best(info_new, obj_new, fit_new)
+
     def replace_individual_better(self, i, info_new):
         obj_new, fit_new = self.get_obj_fit(info_new)
         if Utils.update_info(self.pop[1][i], obj_new):
@@ -116,12 +134,12 @@ class Ga:
                 self.record[2][g]))
 
     def selection_roulette(self):
-        a = np.array(self.pop_selection_pool[2]) / sum(self.pop_selection_pool[2])
+        a = np.array(self.selection_pool[2]) / sum(self.selection_pool[2])
         b = np.array([])
         for i in range(a.shape[0]):
             b = np.append(b, sum(a[:i + 1]))
-        pop = self.pop_selection_pool
-        tabu_list = self.pop_selection_tabu_pool
+        pop = self.selection_pool
+        tabu_list = self.selection_tabu_pool
         self.pop = [[], [], []]
         self.tabu_list = [[[] for _ in self.individual], [[] for _ in self.individual], [[] for _ in self.individual]]
         for i in range(self.pop_size):
@@ -133,8 +151,8 @@ class Ga:
                 self.tabu_list[k][i] = tabu_list[k][j]
 
     def selection_champion2(self):
-        pop = self.pop_selection_pool
-        tabu_list = self.pop_selection_tabu_pool
+        pop = self.selection_pool
+        tabu_list = self.selection_tabu_pool
         self.pop = [[], [], []]
         self.tabu_list = [[[] for _ in self.individual], [[] for _ in self.individual], [[] for _ in self.individual]]
         for i in range(self.pop_size):
@@ -157,15 +175,15 @@ class Ga:
 
     def do_selection(self):
         for i in range(3):
-            self.pop_selection_pool[i].extend(self.pop_father_copy[i])
-            self.pop_selection_pool[i].extend(self.pop[i])
+            self.selection_pool[i].extend(self.pop_copy[i])
+            self.selection_pool[i].extend(self.pop[i])
         for i in range(3):
-            self.pop_selection_tabu_pool[i].extend(self.pop_father_tabu_copy[i])
-            self.pop_selection_tabu_pool[i].extend(self.tabu_list[i])
+            self.selection_tabu_pool[i].extend(self.tabu_copy[i])
+            self.selection_tabu_pool[i].extend(self.tabu_list[i])
         self.func_selection()
         self.save_best()
-        self.pop_selection_pool = [[], [], []]
-        self.pop_selection_tabu_pool = [[], [], []]
+        self.selection_pool = [[], [], []]
+        self.selection_tabu_pool = [[], [], []]
 
     def save_best(self):
         self.pop[0][0] = self.best[0]
@@ -216,8 +234,8 @@ class Ga:
         self.update_best()
         self.show_generation(0)
         for g in range(1, self.max_generation + 1):
-            self.pop_father_copy = copy.deepcopy(self.pop)
-            self.pop_father_tabu_copy = copy.deepcopy(self.tabu_list)
+            self.pop_copy = copy.deepcopy(self.pop)
+            self.tabu_copy = copy.deepcopy(self.tabu_list)
             if self.reach_best_known_solution():
                 break
             if self.reach_max_stay_generation(g):
@@ -270,8 +288,9 @@ class GaJsp(Ga):
     def do_crossover(self, i, j, p):
         if p[0] < self.rc:
             # code1, code2 = self.pop[0][i].ga_crossover_sequence(self.pop[0][j])
-            code1, code2 = self.pop[0][i].ga_crossover_sequence(self.pop_father_copy[0][j])
-            self.replace_individual(i, self.decode(code1))
+            code1, code2 = self.pop[0][i].ga_crossover_sequence(self.pop_copy[0][j])
+            # self.replace_individual(i, self.decode(code1))
+            self.replace_individual_comp(i, self.decode(code1), self.decode(code2))
             # self.replace_individual(j, self.decode(code2))
 
     def do_mutation(self, i, p):
@@ -333,17 +352,18 @@ class GaMrJsp(Ga):
         if p[0] < self.rc or p[1] < self.rc:
             if p[0] < self.rc:
                 # code1, code2 = self.pop[0][i].ga_crossover_sequence(self.pop[0][j])
-                code1, code2 = self.pop[0][i].ga_crossover_sequence(self.pop_father_copy[0][j])
+                code1, code2 = self.pop[0][i].ga_crossover_sequence(self.pop_copy[0][j])
             else:
                 # code1, code2 = self.pop[0][i].code, self.pop[0][j].code
-                code1, code2 = self.pop[0][i].code, self.pop_father_copy[0][j].code
+                code1, code2 = self.pop[0][i].code, self.pop_copy[0][j].code
             if p[1] < self.rc:
                 # route1, route2 = self.pop[0][i].ga_crossover_route(self.pop[0][j])
-                route1, route2 = self.pop[0][i].ga_crossover_route(self.pop_father_copy[0][j])
+                route1, route2 = self.pop[0][i].ga_crossover_route(self.pop_copy[0][j])
             else:
                 # route1, route2 = self.pop[0][i].route, self.pop[0][j].route
-                route1, route2 = self.pop[0][i].route, self.pop_father_copy[0][j].route
-            self.replace_individual(i, self.decode(code1, route=route1))
+                route1, route2 = self.pop[0][i].route, self.pop_copy[0][j].route
+            # self.replace_individual(i, self.decode(code1, route=route1))
+            self.replace_individual_comp(i, self.decode(code1, route=route1), self.decode(code2, route=route2))
             # self.replace_individual(j, self.decode(code2, route=route2))
 
     def do_mutation(self, i, p):
@@ -427,19 +447,19 @@ class GaFjsp(Ga):
         if p[0] < self.rc or p[1] < self.rc:
             if p[0] < self.rc:
                 # code1, code2 = self.pop[0][i].ga_crossover_sequence(self.pop[0][j])
-                code1, code2 = self.pop[0][i].ga_crossover_sequence(self.pop_father_copy[0][j])
+                code1, code2 = self.pop[0][i].ga_crossover_sequence(self.pop_copy[0][j])
             else:
                 # code1, code2 = self.pop[0][i].code, self.pop[0][j].code
-                code1, code2 = self.pop[0][i].code, self.pop_father_copy[0][j].code
+                code1, code2 = self.pop[0][i].code, self.pop_copy[0][j].code
             if p[1] < self.rc:
                 # mac1, mac2 = self.pop[0][i].ga_crossover_assignment(self.pop[0][j])
-                mac1, mac2 = self.pop[0][i].ga_crossover_assignment(self.pop_father_copy[0][j])
+                mac1, mac2 = self.pop[0][i].ga_crossover_assignment(self.pop_copy[0][j])
             else:
                 # mac1, mac2 = self.pop[0][i].mac, self.pop[0][j].mac
-                mac1, mac2 = self.pop[0][i].mac, self.pop_father_copy[0][j].mac
-            self.replace_individual(i, self.decode(code1, mac=mac1))
+                mac1, mac2 = self.pop[0][i].mac, self.pop_copy[0][j].mac
+            # self.replace_individual(i, self.decode(code1, mac=mac1))
+            self.replace_individual_comp(i, self.decode(code1, mac=mac1), self.decode(code2, mac=mac2))
             # self.replace_individual(j, self.decode(code2, mac=mac2))
-
 
     def do_mutation(self, i, p):
         if p[0] < self.rm or p[1] < self.rm:
@@ -505,26 +525,27 @@ class GaMrFjsp(Ga):
         if p[0] < self.rc or p[1] < self.rc or p[2] < self.rc:
             if p[0] < self.rc:
                 # code1, code2 = self.pop[0][i].ga_crossover_sequence(self.pop[0][j])
-                code1, code2 = self.pop[0][i].ga_crossover_sequence(self.pop_father_copy[0][j])
+                code1, code2 = self.pop[0][i].ga_crossover_sequence(self.pop_copy[0][j])
             else:
                 # code1, code2 = self.pop[0][i].code, self.pop[0][j].code
-                code1, code2 = self.pop[0][i].code, self.pop_father_copy[0][j].code
+                code1, code2 = self.pop[0][i].code, self.pop_copy[0][j].code
             if p[1] < self.rc:
                 # mac1, mac2 = self.pop[0][i].ga_crossover_assignment(self.pop[0][j])
-                mac1, mac2 = self.pop[0][i].ga_crossover_assignment(self.pop_father_copy[0][j])
+                mac1, mac2 = self.pop[0][i].ga_crossover_assignment(self.pop_copy[0][j])
             else:
                 # mac1, mac2 = self.pop[0][i].mac, self.pop[0][j].mac
-                mac1, mac2 = self.pop[0][i].mac, self.pop_father_copy[0][j].mac
+                mac1, mac2 = self.pop[0][i].mac, self.pop_copy[0][j].mac
             if p[2] < self.rc:
                 # route1, route2 = self.pop[0][i].ga_crossover_route(self.pop[0][j])
-                route1, route2 = self.pop[0][i].ga_crossover_route(self.pop_father_copy[0][j])
+                route1, route2 = self.pop[0][i].ga_crossover_route(self.pop_copy[0][j])
             else:
                 # route1, route2 = self.pop[0][i].route, self.pop[0][i].route
-                route1, route2 = self.pop[0][i].route, self.pop_father_copy[0][i].route
+                route1, route2 = self.pop[0][i].route, self.pop_copy[0][i].route
             mac1 = self.pop[0][i].repair_mac_route(mac1, route1)
             # mac2 = self.pop[0][j].repair_mac_route(mac2, route2)
-            mac2 = self.pop_father_copy[0][j].repair_mac_route(mac2, route2)
-            self.replace_individual(i, self.decode(code1, mac1, route1))
+            mac2 = self.pop_copy[0][j].repair_mac_route(mac2, route2)
+            # self.replace_individual(i, self.decode(code1, mac1, route1))
+            self.replace_individual_comp(i, self.decode(code1, mac1, route1), self.decode(code2, mac2, route2))
             # self.replace_individual(j, self.decode(code2, mac2, route2))
 
     def do_mutation(self, i, p):
@@ -584,26 +605,27 @@ class GaDrcFjsp(Ga):
         if p[0] < self.rc or p[1] < self.rc or p[2] < self.rc:
             if p[0] < self.rc:
                 # code1, code2 = self.pop[0][i].ga_crossover_sequence(self.pop[0][j])
-                code1, code2 = self.pop[0][i].ga_crossover_sequence(self.pop_father_copy[0][j])
+                code1, code2 = self.pop[0][i].ga_crossover_sequence(self.pop_copy[0][j])
             else:
                 # code1, code2 = self.pop[0][i].code, self.pop[0][j].code
-                code1, code2 = self.pop[0][i].code, self.pop_father_copy[0][j].code
+                code1, code2 = self.pop[0][i].code, self.pop_copy[0][j].code
             if p[1] < self.rc:
                 # mac1, mac2 = self.pop[0][i].ga_crossover_assignment(self.pop[0][j])
-                mac1, mac2 = self.pop[0][i].ga_crossover_assignment(self.pop_father_copy[0][j])
+                mac1, mac2 = self.pop[0][i].ga_crossover_assignment(self.pop_copy[0][j])
             else:
                 # mac1, mac2 = self.pop[0][i].mac, self.pop[0][j].mac
-                mac1, mac2 = self.pop[0][i].mac, self.pop_father_copy[0][j].mac
+                mac1, mac2 = self.pop[0][i].mac, self.pop_copy[0][j].mac
             if p[2] < self.rc:
                 # wok1, wok2 = self.pop[0][i].ga_crossover_worker(self.pop[0][j])
-                wok1, wok2 = self.pop[0][i].ga_crossover_worker(self.pop_father_copy[0][j])
+                wok1, wok2 = self.pop[0][i].ga_crossover_worker(self.pop_copy[0][j])
             else:
                 # wok1, wok2 = self.pop[0][i].wok, self.pop[0][j].wok
-                wok1, wok2 = self.pop[0][i].wok, self.pop_father_copy[0][j].wok
+                wok1, wok2 = self.pop[0][i].wok, self.pop_copy[0][j].wok
             wok1 = self.pop[0][i].repair_mac_wok(mac1, wok1)
             # wok2 = self.pop[0][j].repair_mac_wok(mac2, wok2)
-            wok2 = self.pop_father_copy[0][j].repair_mac_wok(mac2, wok2)
-            self.replace_individual(i, self.decode(code1, mac1, wok=wok1))
+            wok2 = self.pop_copy[0][j].repair_mac_wok(mac2, wok2)
+            # self.replace_individual(i, self.decode(code1, mac1, wok=wok1))
+            self.replace_individual_comp(i, self.decode(code1, mac1, wok=wok1), self.decode(code2, mac2, wok=wok2))
             # self.replace_individual(j, self.decode(code2, mac2, wok=wok2))
 
     def do_mutation(self, i, p):
@@ -659,8 +681,9 @@ class GaFjspNew(Ga):
     def do_crossover(self, i, j, p):
         if p[0] < self.rc:
             # code1, code2 = self.pop[0][i].ga_crossover_sequence(self.pop[0][j])
-            code1, code2 = self.pop[0][i].ga_crossover_sequence(self.pop_father_copy[0][j])
-            self.replace_individual(i, self.decode(code1))
+            code1, code2 = self.pop[0][i].ga_crossover_sequence(self.pop_copy[0][j])
+            # self.replace_individual(i, self.decode(code1))
+            self.replace_individual_comp(i, self.decode(code1), self.decode(code2))
             # self.replace_individual(j, self.decode(code2))
 
     def do_mutation(self, i, p):
@@ -726,17 +749,18 @@ class GaMrFjspNew(Ga):
         if p[0] < self.rc or p[1] < self.rc:
             if p[0] < self.rc:
                 # code1, code2 = self.pop[0][i].ga_crossover_sequence(self.pop[0][j])
-                code1, code2 = self.pop[0][i].ga_crossover_sequence(self.pop_father_copy[0][j])
+                code1, code2 = self.pop[0][i].ga_crossover_sequence(self.pop_copy[0][j])
             else:
                 # code1, code2 = self.pop[0][i].code, self.pop[0][j].code
-                code1, code2 = self.pop[0][i].code, self.pop_father_copy[0][j].code
+                code1, code2 = self.pop[0][i].code, self.pop_copy[0][j].code
             if p[1] < self.rc:
                 # route1, route2 = self.pop[0][i].ga_crossover_route(self.pop[0][j])
-                route1, route2 = self.pop[0][i].ga_crossover_route(self.pop_father_copy[0][j])
+                route1, route2 = self.pop[0][i].ga_crossover_route(self.pop_copy[0][j])
             else:
                 # route1, route2 = self.pop[0][i].route, self.pop[0][j].route
-                route1, route2 = self.pop[0][i].route, self.pop_father_copy[0][j].route
-            self.replace_individual(i, self.decode(code1, route=route1))
+                route1, route2 = self.pop[0][i].route, self.pop_copy[0][j].route
+            # self.replace_individual(i, self.decode(code1, route=route1))
+            self.replace_individual_comp(i, self.decode(code1, route=route1), self.decode(code2, route=route2))
             # self.replace_individual(j, self.decode(code2, route=route2))
 
     def do_mutation(self, i, p):
@@ -783,8 +807,9 @@ class GaFspHfsp(Ga):
     def do_crossover(self, i, j, p):
         if p[0] < self.rc:
             # code1, code2 = self.pop[0][i].ga_crossover_sequence_permutation(self.pop[0][j])
-            code1, code2 = self.pop[0][i].ga_crossover_sequence_permutation(self.pop_father_copy[0][j])
-            self.replace_individual(i, self.decode(code1))
+            code1, code2 = self.pop[0][i].ga_crossover_sequence_permutation(self.pop_copy[0][j])
+            # self.replace_individual(i, self.decode(code1))
+            self.replace_individual_comp(i, self.decode(code1), self.decode(code2))
             # self.replace_individual(j, self.decode(code2))
 
     def do_mutation(self, i, p):

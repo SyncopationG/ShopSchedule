@@ -7,7 +7,7 @@ def main(instance="example"):
     n, m, p, tech, proc = Utils.string2data_fjsp_hfsp(a, int, time_unit)
     best_known = fjsp_benchmark.best_known[instance]
     problem = Utils.create_schedule(Fjsp, n, m, p, tech, proc, best_known=best_known, time_unit=time_unit)
-    ga = GaFjspNew(pop_size=200, rc=0.65, rm=0.35, max_generation=int(10e4), objective=Objective.makespan,
+    ga = GaFjspNew(pop_size=200, rc=0.85, rm=0.05, max_generation=int(10e4), objective=Objective.makespan,
                    schedule=problem, max_stay_generation=100)
     ga.schedule.ga_operator[Crossover.name] = Crossover.ipox
     ga.schedule.ga_operator[Mutation.name] = Mutation.tpe
