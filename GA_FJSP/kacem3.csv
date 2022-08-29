@@ -5,9 +5,9 @@ Test,Objective,IterationReachBest,Direction
 4,7.0,0,0
 5,7.0,0,0
 6,7.0,0,0
-7,7.0,0,0
+7,7.0,0,1
 8,7.0,0,0
-9,7.0,0,0
+9,7.0,0,1
 10,7.0,0,0
 MinObj,7.0
 MaxObj,7.0
@@ -15,5 +15,5 @@ MeanObj,7.00
 MinIter,0
 MaxIter,0
 MeanIter,0.00
-Direction#0,10
-Direction#1,0
+Direction#0,8
+Direction#1,2

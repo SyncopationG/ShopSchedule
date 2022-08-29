@@ -16,7 +16,7 @@ from src import *
 # save, instance, exp = "NSGA_JSP", "ft06", "e1-1"
 # save, instance, exp = "GA_JSP", "ft06", "1"
 # save, instance, exp = "GA_FSPWT", "case1", "3"
-save, instance, exp = "GA_HFSP", "real1", "1"
+save, instance, exp = "GA_HFSP", "real1", "2"
 # file_dir = "./%s/%s/GanttChart" % (save, instance)  # 甘特图数据文件所在目录
 file_dir = "./%s/%s/GanttChartReal" % (save, instance)  # 甘特图数据文件所在目录
 save_dir = "./%s/%s/GanttChartPngHtml" % (save, instance)  # 生成的甘特图保存目录

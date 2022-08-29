@@ -8,8 +8,8 @@ def main(instance="example"):
     best_known = fjsp_benchmark.best_known[instance]
     problem = Utils.create_schedule(Fjsp, n, m, p, tech, proc, best_known=best_known, time_unit=time_unit)
     ga = GaFjspNew(pop_size=200, rc=0.85, rm=0.05, max_generation=int(10e4), objective=Objective.makespan,
-                   schedule=problem, max_stay_generation=100)
-    ga.schedule.ga_operator[Crossover.name] = Crossover.ipox
+                   schedule=problem, max_stay_generation=150)
+    ga.schedule.ga_operator[Crossover.name] = Crossover.dpox
     ga.schedule.ga_operator[Mutation.name] = Mutation.tpe
     ga.schedule.ga_operator[Selection.name] = Selection.roulette
     ga.schedule.para_key_block_move = False
