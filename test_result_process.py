@@ -2,7 +2,7 @@ import pandas as pd
 import os
 import numpy as np
 
-dir_result = r"GA_Fjsp_ipox"
+dir_result = r"GA_FjspNew_dpox"
 "================================================================================================================="
 dir_file = r"G:\Python\ShopSchedule\%s" % dir_result
 save_to = r"%s\%s.csv" % (dir_file, dir_result)
@@ -28,6 +28,7 @@ for name_csv_file in name_csv_file_list:
     for val in val_obj:
         data += ",%s" % int(val)
     data += "\n"
+    print(name_csv_file)
 with open(save_to, "w", encoding="utf-8") as f:
     f.write(data)
 "================================================================================================================="
