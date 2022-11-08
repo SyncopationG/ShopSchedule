@@ -1,1 +1,0 @@
-{'code': [3, 0, 2, 7, 5, 9, 1, 4, 8, 6], 'route': None, 'mac': None, 'wok': None}
