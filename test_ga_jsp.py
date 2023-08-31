@@ -1,9 +1,10 @@
-import cProfile
-import os
+# import cProfile
+# import os
 
 from src import *
 
-pr = cProfile.Profile()
+
+# pr = cProfile.Profile()
 
 
 def main(instance="example"):
@@ -20,11 +21,11 @@ def main(instance="example"):
     ga.schedule.para_key_block_move = False
     ga.schedule.para_tabu = True
     ga.schedule.para_dislocation = False
-    pr.enable()
+    # pr.enable()
     GaTemplate(save="GA_JSP", instance=instance, ga=ga, n_exp=10)
-    pr.disable()
-    pr.dump_stats("./Result/test_ga_jsp.prof")
-    os.system("pyprof2calltree -i ./Result/test_ga_jsp.prof -o ./Result/callgrind.test_ga_jsp.prof")
+    # pr.disable()
+    # pr.dump_stats("./Result/test_ga_jsp.prof")
+    # os.system("pyprof2calltree -i ./Result/test_ga_jsp.prof -o ./Result/callgrind.test_ga_jsp.prof")
 
 
 def exp():
