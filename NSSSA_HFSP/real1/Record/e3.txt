@@ -1,0 +1,19 @@
+实验3
+帕累托等级-1
+(<src.info.Info object at 0x0000028105706DC0>, [24.0, 5.0])
+(<src.info.Info object at 0x00000281056DB2E0>, [25.0, 0.0])
+帕累托等级-2
+(<src.info.Info object at 0x0000028105635610>, [25.0, 1.0])
+帕累托等级-3
+(<src.info.Info object at 0x0000028105627910>, [25.0, 2.0])
+帕累托等级-4
+(<src.info.Info object at 0x0000028105771700>, [25.0, 4.0])
+(<src.info.Info object at 0x00000281056CFE50>, [26.0, 2.0])
+帕累托等级-5
+(<src.info.Info object at 0x000002810578E580>, [26.0, 3.0])
+帕累托等级-6
+(<src.info.Info object at 0x0000028105662BB0>, [26.0, 4.0])
+(<src.info.Info object at 0x0000028105706CA0>, [27.0, 3.0])
+帕累托等级-7
+(<src.info.Info object at 0x0000028105742730>, [26.0, 5.0])
+

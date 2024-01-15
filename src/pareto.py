@@ -78,13 +78,13 @@ class Pareto:
 
 
 class SelectPareto:
-    def __init__(self, scale_fix, scale, f, rank, cd, ):
+    def __init__(self, scale_fix, scale, f, rank, cd, max_rate_front1=0.8, ):
         self.scale_fix = scale_fix
         self.scale = scale
         self.f = f
         self.rank = rank
         self.cd = cd
-        self.num_max_front = int(0.8 * scale_fix)
+        self.num_max_front = int(max_rate_front1 * scale_fix)
         self.n_max_rank = max(self.rank[:, 0])
 
     def elite_strategy(self):

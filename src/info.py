@@ -1375,6 +1375,55 @@ class Info(GanttChart):
         # return neg_complete
 
     """"
+     =============================================================================
+     SSA operator
+     =============================================================================
+     """
+
+    def ssa_pd1(self, i, st, max_iter):
+        code = deepcopy(self.code)
+        r2 = np.random.random()
+        if r2 < st:
+            alpha = np.random.random()
+            code = code * np.exp(-i / (alpha * max_iter))
+        else:
+            q = np.random.normal(size=(1, len(code)))[0]
+            code = code + q
+        return code
+
+    def ssa_pd2(self, i, n, worst, p, ):
+        code = deepcopy(self.code)
+        if i > n / 2:
+            q = np.random.normal(size=(1, len(code)))[0]
+            code = code * q * np.exp((worst - code) / i ** 2)
+        else:
+            len_code = len(code)
+            a = []
+            for i in range(len_code):
+                if np.random.random() < 0.5:
+                    a.append(-1)
+                else:
+                    a.append(1)
+            a = np.array(a).reshape(1, len_code)
+            # a = np.dot(a, np.linalg.pinv(a * a.T))[0]
+            a = a.T @ np.linalg.inv(a @ a.T)[:, 0]
+            code = p + np.abs(code - p) * a
+        return code
+
+    def ssa_sd(self, obj_i, obj_g, best, worst, obj_worst, sigma, ):
+        code = deepcopy(self.code)
+        if obj_i > obj_g:
+            beta = np.random.normal()
+            code = best + beta * np.abs(code - best)
+        elif obj_i == obj_g:
+            # else:
+            k = -1 + 2 * np.random.random()
+            x = abs(sum([i - j for i, j in zip(obj_i, obj_worst)])) + sigma
+            # x = sum([i - j for i, j in zip(obj_i, obj_worst)]) + sigma
+            code = code + k * np.abs(code - worst) / x
+        return code
+
+    """"
     =============================================================================
     Other operator
     =============================================================================

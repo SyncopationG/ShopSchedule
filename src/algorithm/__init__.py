@@ -7,5 +7,6 @@ from .ga import GaFjspNew, GaLwFjspNew, GaDrcFjspNew, GaMrFjspNew
 from .ga import GaFspHfsp, GaFspHfspWorkTimetable
 from .ga import GaJsp, GaLwJsp, GaMrJsp
 from .ga import GaJspNew, GaLwJspNew, GaLwJspNew2, GaMrJspNew
-from .nsga import NsgaJsp
+from .nsga import NsgaJsp, NsgaHfsp
+from .nsssa import NSSSAFHFSP
 from .ot import OrToolsJspSat

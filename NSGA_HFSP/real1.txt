@@ -1,0 +1,72 @@
+实验1
+帕累托等级-1
+(<src.info.Info object at 0x000001EEDC80D190>, [24.0, 1.0])
+(<src.info.Info object at 0x000001EEDC803460>, [25.0, 0.0])
+帕累托等级-2
+(<src.info.Info object at 0x000001EEDC7F7310>, [24.0, 2.0])
+(<src.info.Info object at 0x000001EEDC74C970>, [25.0, 1.0])
+
+实验2
+帕累托等级-1
+(<src.info.Info object at 0x000001EEDC82F970>, [24.0, 0.0])
+帕累托等级-2
+(<src.info.Info object at 0x000001EEDC7A4100>, [24.0, 1.0])
+帕累托等级-3
+(<src.info.Info object at 0x000001EEDC82F9D0>, [24.0, 2.0])
+
+实验3
+帕累托等级-1
+(<src.info.Info object at 0x000001EEDC751B80>, [23.0, 1.0])
+(<src.info.Info object at 0x000001EEDC7DC550>, [24.0, 0.0])
+帕累托等级-2
+(<src.info.Info object at 0x000001EEDC791610>, [25.0, 0.0])
+
+实验4
+帕累托等级-1
+(<src.info.Info object at 0x000001EEDC79AE50>, [24.0, 0.0])
+帕累托等级-2
+(<src.info.Info object at 0x000001EEDC714190>, [25.0, 0.0])
+帕累托等级-3
+(<src.info.Info object at 0x000001EEDC744940>, [25.0, 1.0])
+
+实验5
+帕累托等级-1
+(<src.info.Info object at 0x000001EEDC744B50>, [24.0, 0.0])
+帕累托等级-2
+(<src.info.Info object at 0x000001EEDC7683A0>, [25.0, 0.0])
+
+实验6
+帕累托等级-1
+(<src.info.Info object at 0x000001EEDC82F0A0>, [24.0, 0.0])
+帕累托等级-2
+(<src.info.Info object at 0x000001EEDC802100>, [24.0, 1.0])
+(<src.info.Info object at 0x000001EEDC751D00>, [25.0, 0.0])
+
+实验7
+帕累托等级-1
+(<src.info.Info object at 0x000001EEDC7A49A0>, [24.0, 0.0])
+帕累托等级-2
+(<src.info.Info object at 0x000001EEDC74F3D0>, [25.0, 0.0])
+
+实验8
+帕累托等级-1
+(<src.info.Info object at 0x000001EEDC7353A0>, [23.0, 1.0])
+(<src.info.Info object at 0x000001EEDC71C0D0>, [24.0, 0.0])
+帕累托等级-2
+(<src.info.Info object at 0x000001EEDC7350A0>, [25.0, 0.0])
+
+实验9
+帕累托等级-1
+(<src.info.Info object at 0x000001EEDC7A4BB0>, [24.0, 1.0])
+(<src.info.Info object at 0x000001EEDC6F91C0>, [25.0, 0.0])
+帕累托等级-2
+(<src.info.Info object at 0x000001EEDC6EA670>, [24.0, 2.0])
+
+实验10
+帕累托等级-1
+(<src.info.Info object at 0x000001EEDC7440A0>, [24.0, 0.0])
+帕累托等级-2
+(<src.info.Info object at 0x000001EEDC82A970>, [24.0, 1.0])
+帕累托等级-3
+(<src.info.Info object at 0x000001EEDC7BD040>, [24.0, 2.0])
+

@@ -16,13 +16,14 @@ from ..utils import Utils
 
 
 class Nsga:
-    def __init__(self, pop_size, rc, rm, max_generation, objective, schedule):
+    def __init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_rate_front1):
         self.pop_size = pop_size
         self.rc = rc
         self.rm = rm
         self.max_generation = max_generation
         self.objective = objective
         self.schedule = schedule
+        self.max_rate_front1 = max_rate_front1
         self.direction = Utils.direction0none_multi(objective)
         self.p = [job.nop for job in self.schedule.job.values()]
         self.tech = [[task.machine for task in job.task.values()] for job in self.schedule.job.values()]
@@ -54,6 +55,13 @@ class Nsga:
     def update_child(self, info):
         self.pop_child[0].append(info)
         self.pop_child[1].append(self.get_obj(info))
+
+    def update_child2(self, i, info):
+        old = self.pop[1][i]
+        new = self.get_obj(info)
+        if Utils.is_dominate(new, old, self.num_obj):
+            self.pop[0][i] = info
+            self.pop[1][i] = new
 
     def show_generation(self, g):
         Utils.print("Generation {:<4} Runtime {:<8.4f} Pareto rate: {:<.2f} Objective：{}".format(
@@ -99,7 +107,7 @@ class Nsga:
         f = pareto.f
         rank = pareto.rank
         cd = pareto.cd
-        select_pareto = SelectPareto(self.pop_size, scale, f, rank, cd)
+        select_pareto = SelectPareto(self.pop_size, scale, f, rank, cd, self.max_rate_front1)
         index = self.func_selection(select_pareto)
         pareto_front = []
         self.pop = [[], [], []]
@@ -164,12 +172,20 @@ class Nsga:
 
 
 class NsgaJsp(Nsga):
-    def __init__(self, pop_size, rc, rm, max_generation, objective, schedule):
-        Nsga.__init__(self, pop_size, rc, rm, max_generation, objective, schedule)
+    def __init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_rate_front1):
+        Nsga.__init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_rate_front1)
 
     def decode_update(self, code):
         info = self.schedule.decode(code, direction=self.direction)
         self.update_child(info)
+
+    def decode_update2(self, i, code):
+        info = self.schedule.decode(code, direction=self.direction)
+        self.update_child2(i, info)
+        # if np.random.random() < 0.5:
+        #     self.update_child2(i, info)
+        # else:
+        #     self.update_child(code)
 
     def do_init(self, pop=None):
         self.record[0].append(time.perf_counter())
@@ -186,14 +202,61 @@ class NsgaJsp(Nsga):
     def do_crossover(self, i, j, p):
         if p[0] < self.rc:
             code1, code2 = self.pop[0][i].ga_crossover_sequence(self.pop[0][j])
-            self.decode_update(code1)
+            # self.decode_update(code1)
             # self.decode_update(code2)
+            self.decode_update2(i, code1)
+            self.decode_update2(j, code2)
 
     def do_mutation(self, i, p):
         if p[0] < self.rm:
             code1 = self.pop[0][i].ga_mutation_sequence()
-            self.decode_update(code1)
+            # self.decode_update(code1)
+            self.decode_update2(i, code1)
 
     def do_key_block_move(self, i):
         code1 = self.pop[0][i].key_block_move()
-        self.decode_update(code1)
+        # self.decode_update(code1)
+        self.decode_update2(i, code1)
+
+
+class NsgaHfsp(Nsga):
+    def __init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_rate_front1):
+        Nsga.__init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_rate_front1)
+
+    def decode_update(self, code):
+        info = self.schedule.decode(code)
+        self.update_child(info)
+
+    def decode_update2(self, i, code):
+        info = self.schedule.decode(code)
+        self.update_child2(i, info)
+        # if np.random.random() < 0.5:
+        #     self.update_child2(i, info)
+        # else:
+        #     self.update_child(code)
+
+    def do_init(self, pop=None):
+        self.record[0].append(time.perf_counter())
+        for i in range(self.pop_size):
+            if pop is None:
+                code = Code.sequence_permutation(self.schedule.n)
+            else:
+                code = pop[0][i].code
+            info = self.schedule.decode(code)
+            self.pop[0].append(info)
+            self.pop[1].append(self.get_obj(info))
+        self.record[1].append(time.perf_counter())
+
+    def do_crossover(self, i, j, p):
+        if p[0] < self.rc:
+            code1, code2 = self.pop[0][i].ga_crossover_sequence_permutation(self.pop[0][j])
+            # self.decode_update(code1)
+            # self.decode_update(code2)
+            self.decode_update2(i, code1)
+            self.decode_update2(j, code2)
+
+    def do_mutation(self, i, p):
+        if p[0] < self.rm:
+            code1 = self.pop[0][i].ga_mutation_sequence_permutation()
+            # self.decode_update(code1)
+            self.decode_update2(i, code1)

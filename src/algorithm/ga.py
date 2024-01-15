@@ -298,7 +298,8 @@ class GaJsp(Ga):
     def do_mutation(self, i, p):
         if p[0] < self.rm:
             code1 = self.pop[0][i].ga_mutation_sequence()
-            self.replace_individual(i, self.decode(code1))
+            # self.replace_individual(i, self.decode(code1))
+            self.replace_individual_better(i, self.decode(code1))
 
     def do_tabu_search(self, i):
         code1 = self.pop[0][i].ts_sequence_operation_based(self.tabu_list[0][i], self.max_tabu)
@@ -372,7 +373,7 @@ class GaMrJsp(Ga):
         if p[0] < self.rm or p[1] < self.rm:
             code1 = self.pop[0][i].ga_mutation_sequence() if p[0] < self.rm else self.pop[0][i].code
             route1 = self.pop[0][i].ga_mutation_route() if p[1] < self.rm else self.pop[0][i].route
-            self.replace_individual(i, self.decode(code1, route=route1))
+            self.replace_individual_better(i, self.decode(code1, route=route1))
 
     def do_tabu_search(self, i):
         code1 = self.pop[0][i].ts_sequence_operation_based(self.tabu_list[0][i], self.max_tabu)
@@ -467,7 +468,7 @@ class GaFjsp(Ga):
         if p[0] < self.rm or p[1] < self.rm:
             code1 = self.pop[0][i].ga_mutation_sequence() if p[0] < self.rm else self.pop[0][i].code
             mac1 = self.pop[0][i].ga_mutation_assignment(self.tech) if p[1] < self.rm else self.pop[0][i].mac
-            self.replace_individual(i, self.decode(code1, mac=mac1))
+            self.replace_individual_better(i, self.decode(code1, mac=mac1))
 
     def do_tabu_search(self, i):
         code1 = self.pop[0][i].ts_sequence_operation_based(self.tabu_list[0][i], self.max_tabu)
@@ -557,7 +558,7 @@ class GaMrFjsp(Ga):
             mac1 = self.pop[0][i].ga_mutation_assignment(self.tech) if p[1] < self.rm else self.pop[0][i].mac
             route1 = self.pop[0][i].ga_mutation_route() if p[2] < self.rm else self.pop[0][i].route
             mac1 = self.pop[0][i].repair_mac_route(mac1, route1)
-            self.replace_individual(i, self.decode(code1, mac1, route1))
+            self.replace_individual_better(i, self.decode(code1, mac1, route1))
 
     def do_tabu_search(self, i):
         code1 = self.pop[0][i].ts_sequence_operation_based(self.tabu_list[0][i], self.max_tabu)
@@ -636,7 +637,7 @@ class GaDrcFjsp(Ga):
             mac1 = self.pop[0][i].ga_mutation_assignment(self.tech) if p[1] < self.rm else self.pop[0][i].mac
             wok1 = self.pop[0][i].ga_mutation_worker(self.pop[0][i].mac) if p[2] < self.rm else self.pop[0][i].wok
             wok1 = self.pop[0][i].repair_mac_wok(mac1, wok1)
-            self.replace_individual(i, self.decode(code1, mac1, wok=wok1))
+            self.replace_individual_better(i, self.decode(code1, mac1, wok=wok1))
 
     def do_tabu_search(self, i):
         code1 = self.pop[0][i].ts_sequence_operation_based(self.tabu_list[0][i], self.max_tabu)
@@ -691,7 +692,7 @@ class GaFjspNew(Ga):
     def do_mutation(self, i, p):
         if p[0] < self.rm:
             code1 = self.pop[0][i].ga_mutation_sequence()
-            self.replace_individual(i, self.decode(code1))
+            self.replace_individual_better(i, self.decode(code1))
 
     def do_tabu_search(self, i):
         code1 = self.pop[0][i].ts_sequence_operation_based(self.tabu_list[0][i], self.max_tabu)
@@ -769,7 +770,7 @@ class GaMrFjspNew(Ga):
         if p[0] < self.rm or p[1] < self.rm:
             code1 = self.pop[0][i].ga_mutation_sequence() if p[0] < self.rm else self.pop[0][i].code
             route1 = self.pop[0][i].ga_mutation_route() if p[1] < self.rm else self.pop[0][i].route
-            self.replace_individual(i, self.decode(code1, route=route1))
+            self.replace_individual_better(i, self.decode(code1, route=route1))
 
     def do_tabu_search(self, i):
         code1 = self.pop[0][i].ts_sequence_operation_based(self.tabu_list[0][i], self.max_tabu)
@@ -817,7 +818,7 @@ class GaFspHfsp(Ga):
     def do_mutation(self, i, p):
         if p[0] < self.rm:
             code1 = self.pop[0][i].ga_mutation_sequence_permutation()
-            self.replace_individual(i, self.decode(code1))
+            self.replace_individual_better(i, self.decode(code1))
 
     def do_tabu_search(self, i):
         code1 = self.pop[0][i].ts_sequence_permutation_based(self.tabu_list[0][i], self.max_tabu)

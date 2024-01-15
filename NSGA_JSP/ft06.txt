@@ -1,0 +1,92 @@
+实验1
+帕累托等级-1
+(<src.info.Info object at 0x0000023699E86520>, [55.0, 28.0])
+(<src.info.Info object at 0x0000023699F31EE0>, [56.0, 27.0])
+(<src.info.Info object at 0x0000023699EB8FA0>, [57.0, 19.0])
+(<src.info.Info object at 0x0000023699EB34C0>, [58.0, 4.0])
+(<src.info.Info object at 0x0000023699F72610>, [60.0, 1.0])
+(<src.info.Info object at 0x0000023699F72F70>, [62.0, 0.0])
+帕累托等级-2
+(<src.info.Info object at 0x0000023699EBF880>, [58.0, 20.0])
+
+实验2
+帕累托等级-1
+(<src.info.Info object at 0x0000023699F876D0>, [58.0, 4.0])
+(<src.info.Info object at 0x0000023699E8F760>, [61.0, 3.0])
+(<src.info.Info object at 0x0000023699F87220>, [63.0, 1.0])
+帕累托等级-2
+(<src.info.Info object at 0x0000023699F315E0>, [58.0, 20.0])
+(<src.info.Info object at 0x0000023699F54DC0>, [60.0, 19.0])
+(<src.info.Info object at 0x0000023699F505E0>, [62.0, 3.0])
+
+实验3
+帕累托等级-1
+(<src.info.Info object at 0x0000023699ED7E80>, [56.0, 27.0])
+(<src.info.Info object at 0x0000023699EBF820>, [58.0, 4.0])
+(<src.info.Info object at 0x0000023699F875E0>, [60.0, 1.0])
+(<src.info.Info object at 0x0000023699E71B80>, [62.0, 0.0])
+帕累托等级-2
+(<src.info.Info object at 0x0000023699F316A0>, [58.0, 9.0])
+帕累托等级-3
+(<src.info.Info object at 0x0000023699F3DCA0>, [58.0, 10.0])
+帕累托等级-4
+(<src.info.Info object at 0x0000023699F1E3A0>, [59.0, 16.0])
+
+实验4
+帕累托等级-1
+(<src.info.Info object at 0x0000023699E86A00>, [55.0, 28.0])
+(<src.info.Info object at 0x0000023699EBFEE0>, [57.0, 19.0])
+(<src.info.Info object at 0x0000023699EB0AF0>, [59.0, 8.0])
+(<src.info.Info object at 0x0000023699EB8940>, [60.0, 1.0])
+
+实验5
+帕累托等级-1
+(<src.info.Info object at 0x0000023699ED3580>, [56.0, 27.0])
+(<src.info.Info object at 0x0000023699EED100>, [57.0, 19.0])
+(<src.info.Info object at 0x0000023699F003A0>, [59.0, 8.0])
+(<src.info.Info object at 0x0000023699F0C880>, [60.0, 1.0])
+帕累托等级-2
+(<src.info.Info object at 0x0000023699EABA00>, [59.0, 9.0])
+
+实验6
+帕累托等级-1
+(<src.info.Info object at 0x0000023699F3D3A0>, [56.0, 30.0])
+(<src.info.Info object at 0x0000023699EDDCA0>, [59.0, 9.0])
+(<src.info.Info object at 0x0000023699F12AC0>, [60.0, 1.0])
+帕累托等级-2
+(<src.info.Info object at 0x0000023699F1E820>, [60.0, 9.0])
+
+实验7
+帕累托等级-1
+(<src.info.Info object at 0x0000023699EE2640>, [57.0, 19.0])
+(<src.info.Info object at 0x0000023699F31280>, [59.0, 8.0])
+帕累托等级-2
+(<src.info.Info object at 0x0000023699E864F0>, [60.0, 9.0])
+
+实验8
+帕累托等级-1
+(<src.info.Info object at 0x00000236F0A8B0D0>, [55.0, 31.0])
+(<src.info.Info object at 0x0000023699EE2220>, [57.0, 19.0])
+(<src.info.Info object at 0x0000023699F31940>, [58.0, 9.0])
+(<src.info.Info object at 0x0000023699EB30A0>, [59.0, 8.0])
+(<src.info.Info object at 0x0000023699E93520>, [60.0, 1.0])
+帕累托等级-2
+(<src.info.Info object at 0x0000023699EC48B0>, [58.0, 20.0])
+(<src.info.Info object at 0x0000023699EDD2E0>, [59.0, 9.0])
+
+实验9
+帕累托等级-1
+(<src.info.Info object at 0x0000023699F1E4C0>, [55.0, 28.0])
+(<src.info.Info object at 0x0000023699F1A340>, [57.0, 19.0])
+(<src.info.Info object at 0x0000023699EF4E20>, [58.0, 4.0])
+(<src.info.Info object at 0x0000023699F38E20>, [60.0, 1.0])
+(<src.info.Info object at 0x0000023699EB3610>, [62.0, 0.0])
+
+实验10
+帕累托等级-1
+(<src.info.Info object at 0x0000023699E945E0>, [55.0, 28.0])
+(<src.info.Info object at 0x0000023699EF40A0>, [59.0, 8.0])
+(<src.info.Info object at 0x0000023699ED7CA0>, [60.0, 1.0])
+帕累托等级-2
+(<src.info.Info object at 0x0000023699F00A30>, [60.0, 4.0])
+

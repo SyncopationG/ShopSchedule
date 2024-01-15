@@ -3,7 +3,8 @@ from .algorithm import GaFjspNew, GaLwFjspNew, GaDrcFjspNew, GaMrFjspNew
 from .algorithm import GaFspHfsp, GaFspHfspWorkTimetable
 from .algorithm import GaJsp, GaLwJsp, GaMrJsp
 from .algorithm import GaJspNew, GaLwJspNew, GaLwJspNew2, GaMrJspNew
-from .algorithm import NsgaJsp
+from .algorithm import NSSSAFHFSP
+from .algorithm import NsgaJsp, NsgaHfsp
 from .algorithm import OrToolsJspSat
 from .data import drcfjsp_benchmark
 from .data import fjsp_benchmark, fsp_benchmark, jsp_benchmark, hfsp_benchmark
@@ -22,7 +23,8 @@ from .utils import Utils
 DIR_RESULT = ["./Result", "./Result/Code", "./Result/GanttChart", "./Result/GanttChartPngHtml"]
 [Utils.make_dir(i) for i in DIR_RESULT]
 INSTANCE_LIST_JSP = """
-ft06
+ft10
+ft20
 """
 INSTANCE_LIST_FJSP = """
 mk1

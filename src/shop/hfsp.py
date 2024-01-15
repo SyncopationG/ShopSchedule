@@ -12,6 +12,11 @@ class Hfsp(Schedule):
     def __init__(self):
         Schedule.__init__(self)
 
+    def decode_rk(self, perm, code):
+        res = self.decode(perm[np.argsort(code)])
+        res.code = code
+        return res
+
     def decode(self, code):
         self.clear()
         copy_code = deepcopy(code)
