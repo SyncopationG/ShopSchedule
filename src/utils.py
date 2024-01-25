@@ -17,6 +17,22 @@ init(autoreset=True)
 
 class Utils:
     @staticmethod
+    def create_schedule_trans(shop, n, m, p, tech, proc, trans=None, best_known=None, time_unit=1):  # 创建一个车间调度对象
+        schedule = shop()
+        schedule.best_known = best_known  # 已知最优目标值
+        schedule.time_unit = time_unit  # 加工时间单位
+        for i in range(m):  # 添加机器, 方法add_machine定义在resource包的schedule模块的Schedule类里面
+            schedule.add_machine(name=i)
+        for i in range(n):  # 添加工件, 方法add_job也定义在resource包的schedule模块的Schedule类里面
+            schedule.add_job(name=i)
+            for j in range(p[i]):  # 添加工序, p是一个包含n个元素的列表, 对应n个工件的工序数量
+                schedule.job[i].add_task(tech[i][j], proc[i][j], name=j)
+        if trans is not None:  # 添加机器间的运输时间
+            for i in range(m):
+                schedule.machine[i].add_trans(trans[i])
+        return schedule
+
+    @staticmethod
     def create_schedule(shop, n, m, p, tech, proc, multi_route=False, limited_wait=None, rest_start_end=None,
                         resumable=None, w=None, worker=None, due_date=None, best_known=None, time_unit=1):  # 创建一个车间调度对象
         schedule = shop()  # shop是车间类, 在shop包里面, 如Jsp, Fjsp, Fsp, Hfsp
@@ -412,6 +428,56 @@ class Utils:
         except ValueError:
             return None, None, None, None, None, None, None
 
+    @staticmethod
+    def string2data_hfsp(string, dtype=int, time_unit=1, minus_one=True):
+        try:
+            to_data = list(map(dtype, string.split()))
+            job, p, tech, prt = 0, [], [], []
+            n, m = int(to_data[0]), int(to_data[1])
+            index_no, index_nm, index_m, index_t = 2, 3, 4, 5
+            while job < n:
+                p.append(int(to_data[index_no]))
+                tech.append([])
+                prt.append([])
+                for i in range(p[job]):
+                    tech[job].append([])
+                    prt[job].append([])
+                    int_index_nm = int(to_data[index_nm])
+                    for j in range(int_index_nm):
+                        int_index_m = int(to_data[index_m])
+                        if minus_one is True:
+                            tech[job][i].append(int_index_m - 1)
+                        else:
+                            tech[job][i].append(int_index_m)
+                        prt[job][i].append(time_unit * to_data[index_t])
+                        index_m += 2
+                        index_t += 2
+                    index_nm = index_nm + 2 * int_index_nm + 1
+                    index_m = index_nm + 1
+                    index_t = index_nm + 2
+                job += 1
+                index_nm = index_nm + 1
+                index_m = index_m + 1
+                index_t = index_t + 1
+                index_no = index_t - 3
+            return n, m, p, tech, prt
+        except ValueError:
+            return None, None, None, None, None
+
+    @staticmethod
+    def string2trans_time(string, dtype=int, time_unit=1, ):
+        try:
+            to_data = list(map(dtype, string.split()))
+            m = int(to_data[0])
+            a = [[] for _ in range(m)]
+            idx = 0
+            for i in to_data[1:]:
+                a[idx].append(time_unit * i)
+                if len(a[idx]) == m:
+                    idx += 1
+            return a
+        except ValueError:
+            return None
     @staticmethod
     def save_code_to_txt(file, data):
         if not file.endswith(".txt"):

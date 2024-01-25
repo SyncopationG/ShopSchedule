@@ -15,6 +15,7 @@ class Machine:  # 机器类
         self.timetable = timetable
         self.name = name
         self.end = 0  # 机器上的最大完成时间
+        self.trans = []  # 机器间的运输时间
         # 机器空闲时间数据类型：字典，0：空闲开始时刻，1：空闲结束时刻
         self.idle = {0: [0, ], 1: [np.inf, ]}
         self.index_list = []  # 解码用： 机器在编码中的位置索引（基于工序的编码）
@@ -23,3 +24,11 @@ class Machine:  # 机器类
         self.end = 0
         self.idle = {0: [0, ], 1: [np.inf, ]}
         self.index_list = []
+
+    def add_trans(self, trans_time):
+        """
+        添加机器间的运输时间
+        :param trans_time:
+        :return:
+        """
+        self.trans = trans_time

@@ -834,3 +834,9 @@ class GaFspHfspWorkTimetable(GaFspHfsp):
 
     def decode(self, code, mac=None, route=None, wok=None):
         return self.schedule.decode_work_timetable(code)
+class GaHfspConsiderTrans(GaFspHfsp):
+    def __init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_stay_generation=None):
+        GaFspHfsp.__init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_stay_generation)
+
+    def decode(self, code, mac=None, route=None, wok=None):
+        return self.schedule.decode_with_trans(code)
