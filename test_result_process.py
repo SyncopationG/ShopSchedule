@@ -6,7 +6,7 @@ import pandas as pd
 import os
 import numpy as np
 
-dir_result = r"GA_FSP"
+dir_result = r"GA-TS_HFSP-Trans"
 "================================================================================================================="
 dir_file = r"E:\Python\ShopSchedule\%s" % dir_result
 save_to = r"%s\%s.csv" % (dir_file, dir_result)
