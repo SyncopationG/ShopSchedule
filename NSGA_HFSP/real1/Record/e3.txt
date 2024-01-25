@@ -1,7 +1,0 @@
-实验3
-帕累托等级-1
-(<src.info.Info object at 0x000001EEDC751B80>, [23.0, 1.0])
-(<src.info.Info object at 0x000001EEDC7DC550>, [24.0, 0.0])
-帕累托等级-2
-(<src.info.Info object at 0x000001EEDC791610>, [25.0, 0.0])
-

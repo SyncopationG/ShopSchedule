@@ -1,24 +1,16 @@
 __doc__ = """
-绘制甘特图
+甘特图
 """
 
 from src import *
 
-"""Result"""
+"""Decode result"""
 # file_dir = "./Result/GanttChart"  # 甘特图数据文件所在目录
 # save_dir = "./Result/GanttChartPngHtml"  # 生成的甘特图保存目录
 # file = "example.csv"  # 甘特图数据文件
 # file_save = "%s/%s" % (save_dir, file[:-4])  # 保存的甘特图名称
-"""Algorithm"""
-# save, instance, exp = "GA_DRCFJSP", "DMFJS01", "1"
-# save, instance, exp = "GA_MRJSP", "n10m10-1", "1"
-# save, instance, exp = "GA_MRFJSP", "n10m10-1", "6"
-# save, instance, exp = "NSGA_JSP", "ft06", "e1-1"
-# save, instance, exp = "GA_JSP", "ft06", "1"
-# save, instance, exp = "GA_FSPWT", "case1", "3"
-# save, instance, exp = "GA_HFSP", "real1", "2"
-save, instance, exp = "NSSSA_HFSP", "real1", "e2-1"
-# file_dir = "./%s/%s/GanttChart" % (save, instance)  # 甘特图数据文件所在目录
+"""Algorithm result"""
+save, instance, exp = "GA_JSP", "ft06", "1"
 file_dir = "./%s/%s/GanttChartReal" % (save, instance)  # 甘特图数据文件所在目录
 save_dir = "./%s/%s/GanttChartPngHtml" % (save, instance)  # 生成的甘特图保存目录
 # file_dir2 = "./%s/%s/GanttChartReal2" % (save, instance)  # 甘特图数据文件所在目录

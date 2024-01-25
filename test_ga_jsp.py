@@ -1,6 +1,9 @@
+__doc__ = """
+算法测试，作业车间调度
+"""
+
 # import cProfile
 # import os
-
 from src import *
 
 

@@ -1,5 +1,6 @@
 __doc__ = """
-基于OR-Tools的约束规划（Constraint program）求解作业车间调度问题；
+基于OR-Tools的约束规划（Constraint program）求解：
+作业车间调度问题；
 等待时间有限约束；
 交货期约束；
 """

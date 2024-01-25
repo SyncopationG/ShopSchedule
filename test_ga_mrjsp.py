@@ -1,3 +1,7 @@
+__doc__ = """
+算法测试，多加工路径的作业车间调度
+"""
+
 from src import *
 
 
@@ -11,7 +15,7 @@ def main(instance="example"):
     best_known = None
     problem = Utils.create_schedule(Jsp, n, m, p, tech, proc, best_known=best_known, time_unit=time_unit,
                                     multi_route=True)
-    ga = GaMrJsp(pop_size=20, rc=0.85, rm=0.15, max_generation=int(10e4), objective=Objective.makespan,
+    ga = GaMrJsp(pop_size=50, rc=0.85, rm=0.15, max_generation=int(10e4), objective=Objective.makespan,
                  schedule=problem, max_stay_generation=50)
     ga.schedule.ga_operator[Crossover.name] = Crossover.pox
     ga.schedule.ga_operator[Mutation.name] = Mutation.tpe

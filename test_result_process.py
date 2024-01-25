@@ -1,10 +1,14 @@
+__doc__ = """
+工具，结果汇总处理
+"""
+
 import pandas as pd
 import os
 import numpy as np
 
-dir_result = r"GA_FjspNew_dpox"
+dir_result = r"GA_FSP"
 "================================================================================================================="
-dir_file = r"G:\Python\ShopSchedule\%s" % dir_result
+dir_file = r"E:\Python\ShopSchedule\%s" % dir_result
 save_to = r"%s\%s.csv" % (dir_file, dir_result)
 try:
     os.remove(save_to)

@@ -1,3 +1,7 @@
+__doc__ = """
+解码测试，等待时间有限的作业车间调度
+"""
+
 import cProfile
 import os
 

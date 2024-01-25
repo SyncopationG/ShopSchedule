@@ -1,3 +1,7 @@
+__doc__ = """
+工具，生成测试数据
+"""
+
 from src import *
 
 LOW, HIGH = 10, 100

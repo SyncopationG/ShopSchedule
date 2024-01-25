@@ -23,23 +23,19 @@ from .utils import Utils
 DIR_RESULT = ["./Result", "./Result/Code", "./Result/GanttChart", "./Result/GanttChartPngHtml"]
 [Utils.make_dir(i) for i in DIR_RESULT]
 INSTANCE_LIST_JSP = """
-ft10
-ft20
+ft06
 """
 INSTANCE_LIST_FJSP = """
 mk1
-mk2
-mk3
-mk4
-mk5
-mk6
-mk7
-mk8
-mk9
-mk10
 """
 INSTANCE_LIST_FSP = """
-car1
+car2
+car3
+car4
+car5
+car6
+car7
+car8
 """
 INSTANCE_LIST_HFSP = """
 real1
@@ -48,9 +44,7 @@ CASES_LIST = """
 case1
 """
 INSTANCE_LIST_LWJSP = """
-ft06 ft10 ft20
-la01 la02 la03 la04 la05 la06 la07 la08 la09 la10
-la11 la12 la13 la14 la15 la16 la17 la19 la19 la20
+ft06
 """
 INSTANCE_LIST_LWFJSP = """
 mk1
