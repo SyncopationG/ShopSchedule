@@ -1,0 +1,10 @@
+Test,Objective,IterationReachBest,Direction
+1,7038.0,10,0
+MinObj,7038.0
+MaxObj,7038.0
+MeanObj,7038.00
+MinIter,10
+MaxIter,10
+MeanIter,10.00
+Direction#0,1
+Direction#1,0
