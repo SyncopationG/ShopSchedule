@@ -84,7 +84,7 @@ class Schedule:  # 调度资源融合类
         return self.a_operation_based_code[np.argsort(code)]
 
     def any_task_not_done(self):  # 解码：判断是否解码结束（基于机器的编码、混合流水车间、考虑作息时间的流水车间）
-        return any([any([task.start is None for task in job.task.values()]) for job in self.job.values()])
+        return any([any([task.end is None for task in job.task.values()]) for job in self.job.values()])
 
     def add_worker(self, name=None, index=None):  # 添加工人
         if index is None:

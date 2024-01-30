@@ -94,7 +94,7 @@ def run2():
     index_limited_wait = 2
     index_due_date = 0
     max_solve_time = 3600
-    for instance in "la06 la07 la08".split():
+    for instance in "ft06".split():
         Utils.print(instance)
         y_list = [0.5, 1, 2, 10]
         for y in y_list:

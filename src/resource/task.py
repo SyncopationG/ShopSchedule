@@ -7,11 +7,11 @@ class Task:  # 加工任务（工序）类
         self.resumable = resumable
         self.limited_wait = limited_wait
         self.worker = worker
-        self.start = None  # 解码用：加工开始时间
+        self.start = 0  # 解码用：加工开始时间
         self.end = None  # 解码用：加工完成时间
         self.block = None  # 标记关键块
 
     def clear(self):  # 解码用：重置
-        self.start = None
+        self.start = 0
         self.end = None
         self.block = None

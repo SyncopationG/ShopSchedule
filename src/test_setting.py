@@ -1,5 +1,7 @@
 from .utils import Utils
 
+N_EXP = 1  # 实验次数
+
 dir_DecodeTest = "DecodeTest"
 DIR_RESULT = [
     f"./{dir_DecodeTest}",
@@ -15,13 +17,7 @@ INSTANCE_LIST_FJSP = """
 mk1
 """
 INSTANCE_LIST_FSP = """
-car2
-car3
-car4
-car5
-car6
-car7
-car8
+car1
 """
 INSTANCE_LIST_HFSP = """
 real1

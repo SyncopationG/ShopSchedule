@@ -10,7 +10,9 @@ from src import *
 # file = "example.csv"  # 甘特图数据文件
 # file_save = "%s/%s" % (save_dir, file[:-4])  # 保存的甘特图名称
 """Algorithm result"""
-save, instance, exp = "GA-TS_HFSP-Trans", "real1", "1"
+save = "GA-TS_HFSP-Trans"
+instance = "real1"
+exp = "1"
 file_dir = "./%s/%s/GanttChartReal" % (save, instance)  # 甘特图数据文件所在目录
 save_dir = "./%s/%s/GanttChartPngHtml" % (save, instance)  # 生成的甘特图保存目录
 """Algorithm result2"""

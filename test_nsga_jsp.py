@@ -3,6 +3,7 @@ __doc__ = """
 """
 
 from src import *
+from src.test_parameter_ga_nsga import *
 
 
 def run(instance="ft06"):
@@ -13,13 +14,14 @@ def run(instance="ft06"):
     due_date = list(map(int, b.split()))
     problem = Utils.create_schedule(Jsp, n, m, p, tech, proc, due_date=due_date, time_unit=time_unit)
     objective_list = [Objective.makespan, Objective.tardiness, ]
-    nsga = NsgaJsp(pop_size=40, rc=0.85, rm=0.15, max_generation=50, objective=objective_list, schedule=problem,
-                   max_rate_front1=0.8)
+    nsga = NsgaJsp(pop_size=POP_SIZE, rc=RC, rm=RM, max_generation=MAX_GENERATION, objective=objective_list,
+                   schedule=problem,
+                   max_rate_front1=MAX_RATE_FRONT1)
     nsga.schedule.ga_operator[Crossover.name] = Crossover.pox
     nsga.schedule.ga_operator[Mutation.name] = Mutation.tpe
     nsga.schedule.ga_operator[Selection.name] = Selection.nsga_elite_strategy
     nsga.schedule.para_key_block_move = True
-    NsgaTemplate(save="NSGA_JSP", instance=instance, nsga=nsga, n_exp=10, n_level=10, column=0)
+    NsgaTemplate(save="NSGA_JSP", instance=instance, nsga=nsga, n_exp=N_EXP, n_level=N_LEVEL, column=0)
 
 
 def main():
