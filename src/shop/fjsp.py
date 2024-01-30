@@ -57,6 +57,8 @@ class Fjsp(Schedule):
                         early_start = max([0, b])
                     if early_start + p <= c:
                         res1, res2 = early_start, early_start + p
+                        self.job[i].task[j].start = res1
+                        self.job[i].task[j].end = res2
                         if self.job[i].task[j].resumable is not None:
                             res1, res2 = self.constrain_timetable(i, j, k, p, c)
                             if res1 is False:
@@ -165,6 +167,8 @@ class Fjsp(Schedule):
                             early_start = max([0, b])
                         if early_start + p <= c:
                             res1, res2 = early_start, early_start + p
+                            self.job[i].task[j].start = res1
+                            self.job[i].task[j].end = res2
                             if self.job[i].task[j].resumable is not None:
                                 res1, res2 = self.constrain_timetable(i, j, k, p, c)
                                 if res1 is False:

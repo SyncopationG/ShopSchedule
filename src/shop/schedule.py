@@ -165,6 +165,7 @@ class Schedule:  # 调度资源融合类
                 res1, res2 = early_start, early_start + p
                 # if c != np.inf and self.direction == 1:
                 #     res1, res2 = c - p, c
+                self.job[i].task[j].start, self.job[i].task[j].end = res1, res2
                 if self.job[i].task[j].resumable is not None:
                     res1, res2 = self.constrain_timetable(i, j, k, p, c)
                     if res1 is False:
@@ -200,8 +201,8 @@ class Schedule:  # 调度资源融合类
             if self.job[i].task[j].resumable == 0:  # 加工不可恢复
                 while True:
                     try:
-                        constrain1 = np.argwhere(start <= self.machine[k].timetable[0])[:, 0]
-                        constrain2 = np.argwhere(self.machine[k].timetable[0] < end)[:, 0]
+                        constrain1 = np.argwhere(start < self.machine[k].timetable[0])[:, 0]  # 加工开始时刻恰好小于停工时刻
+                        constrain2 = np.argwhere(self.machine[k].timetable[0] <= end)[:, 0]  # 加工结束时刻恰好大于停工时刻
                         index = list(set(constrain1) & set(constrain2))[0]
                         start = self.machine[k].timetable[1][index]
                         end = start + p
