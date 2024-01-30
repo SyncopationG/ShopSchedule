@@ -1,12 +1,6 @@
 # ShopSchedule
-
-Shop type: Job Shop, flexible job shop, flow shop and hybrid flow shop.  
-Constrain: Basic constrain, worker constrain, no-wait constrain, limited-wait constrain, work timetable constrain,
-multi-route constrain.    
-Algorithm: Genetic algorithm, Non-dominate sort genetic algorithm.    
-Schedule rules: SPT,LPT,et al.   
-E-mail: 2315466330@qq.com   
-All copyright reserved.  
-
-
-
+车间类型：作业车间，柔性作业车间，流水车间，混合流水车间 
+额外约束条件：作息时间，工人，无等待，等待时间有限，多加工路径，运输时间 
+算法: 遗传算法，非支配排序遗传算法 
+调度规则: SPT,LPT等 
+版权所有
