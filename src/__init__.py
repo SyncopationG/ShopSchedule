@@ -19,43 +19,4 @@ from .pareto import Pareto, SelectPareto
 from .resource import Code, Job, Machine, Task, TimeTable
 from .shop import Jsp, Fjsp, Fsp, Hfsp
 from .template import GaTemplate, NsgaTemplate
-from .utils import Utils
-
-DIR_RESULT = ["./Result", "./Result/Code", "./Result/GanttChart", "./Result/GanttChartPngHtml"]
-[Utils.make_dir(i) for i in DIR_RESULT]
-INSTANCE_LIST_JSP = """
-ft06
-"""
-INSTANCE_LIST_FJSP = """
-mk1
-"""
-INSTANCE_LIST_FSP = """
-car2
-car3
-car4
-car5
-car6
-car7
-car8
-"""
-INSTANCE_LIST_HFSP = """
-real1
-"""
-CASES_LIST = """
-case1
-"""
-INSTANCE_LIST_LWJSP = """
-ft06
-"""
-INSTANCE_LIST_LWFJSP = """
-mk1
-"""
-INSTANCE_LIST_MRJSP = """
-n10m10-1
-"""
-INSTANCE_LIST_MRFJSP = """
-n10m10-1
-"""
-INSTANCE_LIST_DRCFJSP = """
-DMFJS01
-"""
+from .test_setting import *

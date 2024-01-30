@@ -5,14 +5,15 @@ __doc__ = """
 from src import *
 
 """Decode result"""
-# file_dir = "./Result/GanttChart"  # 甘特图数据文件所在目录
-# save_dir = "./Result/GanttChartPngHtml"  # 生成的甘特图保存目录
+# file_dir = f"./{dir_DecodeTest}/GanttChart"  # 甘特图数据文件所在目录
+# save_dir = f"./{dir_DecodeTest}/GanttChartPngHtml"  # 生成的甘特图保存目录
 # file = "example.csv"  # 甘特图数据文件
 # file_save = "%s/%s" % (save_dir, file[:-4])  # 保存的甘特图名称
 """Algorithm result"""
 save, instance, exp = "GA-TS_HFSP-Trans", "real1", "1"
 file_dir = "./%s/%s/GanttChartReal" % (save, instance)  # 甘特图数据文件所在目录
 save_dir = "./%s/%s/GanttChartPngHtml" % (save, instance)  # 生成的甘特图保存目录
+"""Algorithm result2"""
 # file_dir2 = "./%s/%s/GanttChartReal2" % (save, instance)  # 甘特图数据文件所在目录
 # save_dir2 = "./%s/%s/GanttChartPngHtml2" % (save, instance)  # 生成的甘特图保存目录
 # file_dir = file_dir2

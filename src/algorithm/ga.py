@@ -291,14 +291,14 @@ class GaJsp(Ga):
         if p[0] < self.rc:
             # code1, code2 = self.pop[0][i].ga_crossover_sequence(self.pop[0][j])
             code1, code2 = self.pop[0][i].ga_crossover_sequence(self.pop_copy[0][j])
-            # self.replace_individual(i, self.decode(code1))
+            # self.replace_individual(i, self.test_decode(code1))
             self.replace_individual_comp(i, self.decode(code1), self.decode(code2))
-            # self.replace_individual(j, self.decode(code2))
+            # self.replace_individual(j, self.test_decode(code2))
 
     def do_mutation(self, i, p):
         if p[0] < self.rm:
             code1 = self.pop[0][i].ga_mutation_sequence()
-            # self.replace_individual(i, self.decode(code1))
+            # self.replace_individual(i, self.test_decode(code1))
             self.replace_individual_better(i, self.decode(code1))
 
     def do_tabu_search(self, i):
@@ -316,7 +316,7 @@ class GaJsp(Ga):
         self.replace_individual_better(i, self.decode(code1))
         # code1_complete = self.pop[0][i].key_block_move_complete()
         # for code1 in code1_complete:
-        #     self.replace_individual_better(i, self.decode(code1[0]))
+        #     self.replace_individual_better(i, self.test_decode(code1[0]))
 
 
 class GaLwJsp(GaJsp):
@@ -365,9 +365,9 @@ class GaMrJsp(Ga):
             else:
                 # route1, route2 = self.pop[0][i].route, self.pop[0][j].route
                 route1, route2 = self.pop[0][i].route, self.pop_copy[0][j].route
-            # self.replace_individual(i, self.decode(code1, route=route1))
+            # self.replace_individual(i, self.test_decode(code1, route=route1))
             self.replace_individual_comp(i, self.decode(code1, route=route1), self.decode(code2, route=route2))
-            # self.replace_individual(j, self.decode(code2, route=route2))
+            # self.replace_individual(j, self.test_decode(code2, route=route2))
 
     def do_mutation(self, i, p):
         if p[0] < self.rm or p[1] < self.rm:
@@ -434,7 +434,7 @@ class GaFjsp(Ga):
             if pop is None:
                 code = Code.sequence_operation_based(self.schedule.n, self.p)
                 # mac = Code.assignment_job_based(self.schedule.n, self.p, self.tech)
-                # info = self.decode(code, mac=mac)
+                # info = self.test_decode(code, mac=mac)
                 info = self.schedule.decode_new(code)
             else:
                 code = pop[0][i].code
@@ -460,9 +460,9 @@ class GaFjsp(Ga):
             else:
                 # mac1, mac2 = self.pop[0][i].mac, self.pop[0][j].mac
                 mac1, mac2 = self.pop[0][i].mac, self.pop_copy[0][j].mac
-            # self.replace_individual(i, self.decode(code1, mac=mac1))
+            # self.replace_individual(i, self.test_decode(code1, mac=mac1))
             self.replace_individual_comp(i, self.decode(code1, mac=mac1), self.decode(code2, mac=mac2))
-            # self.replace_individual(j, self.decode(code2, mac=mac2))
+            # self.replace_individual(j, self.test_decode(code2, mac=mac2))
 
     def do_mutation(self, i, p):
         if p[0] < self.rm or p[1] < self.rm:
@@ -511,7 +511,7 @@ class GaMrFjsp(Ga):
                 self.update_p(route)
                 code = Code.sequence_operation_based(self.schedule.n, self.p)
                 # mac = Code.assignment_job_based_route(self.schedule.n, self.p, self.tech, route)
-                # info = self.decode(code, mac, route)
+                # info = self.test_decode(code, mac, route)
                 info = self.schedule.decode_new(code, route)
             else:
                 code = pop[0][i].code
@@ -547,9 +547,9 @@ class GaMrFjsp(Ga):
             mac1 = self.pop[0][i].repair_mac_route(mac1, route1)
             # mac2 = self.pop[0][j].repair_mac_route(mac2, route2)
             mac2 = self.pop_copy[0][j].repair_mac_route(mac2, route2)
-            # self.replace_individual(i, self.decode(code1, mac1, route1))
+            # self.replace_individual(i, self.test_decode(code1, mac1, route1))
             self.replace_individual_comp(i, self.decode(code1, mac1, route1), self.decode(code2, mac2, route2))
-            # self.replace_individual(j, self.decode(code2, mac2, route2))
+            # self.replace_individual(j, self.test_decode(code2, mac2, route2))
 
     def do_mutation(self, i, p):
         if p[0] < self.rm or p[1] < self.rm or p[2] < self.rm:
@@ -591,7 +591,7 @@ class GaDrcFjsp(Ga):
                 code = Code.sequence_operation_based(self.schedule.n, self.p)
                 # mac = Code.assignment_job_based(self.schedule.n, self.p, self.tech)
                 # wok = Code.assignment_worker(self.schedule.n, self.p, self.tech, self.worker, mac)
-                # info = self.decode(code, mac, wok=wok)
+                # info = self.test_decode(code, mac, wok=wok)
                 info = self.schedule.decode_worker_new(code)
             else:
                 code = pop[0][i].code
@@ -627,9 +627,9 @@ class GaDrcFjsp(Ga):
             wok1 = self.pop[0][i].repair_mac_wok(mac1, wok1)
             # wok2 = self.pop[0][j].repair_mac_wok(mac2, wok2)
             wok2 = self.pop_copy[0][j].repair_mac_wok(mac2, wok2)
-            # self.replace_individual(i, self.decode(code1, mac1, wok=wok1))
+            # self.replace_individual(i, self.test_decode(code1, mac1, wok=wok1))
             self.replace_individual_comp(i, self.decode(code1, mac1, wok=wok1), self.decode(code2, mac2, wok=wok2))
-            # self.replace_individual(j, self.decode(code2, mac2, wok=wok2))
+            # self.replace_individual(j, self.test_decode(code2, mac2, wok=wok2))
 
     def do_mutation(self, i, p):
         if p[0] < self.rm or p[1] < self.rm or p[2] < self.rm:
@@ -685,9 +685,9 @@ class GaFjspNew(Ga):
         if p[0] < self.rc:
             # code1, code2 = self.pop[0][i].ga_crossover_sequence(self.pop[0][j])
             code1, code2 = self.pop[0][i].ga_crossover_sequence(self.pop_copy[0][j])
-            # self.replace_individual(i, self.decode(code1))
+            # self.replace_individual(i, self.test_decode(code1))
             self.replace_individual_comp(i, self.decode(code1), self.decode(code2))
-            # self.replace_individual(j, self.decode(code2))
+            # self.replace_individual(j, self.test_decode(code2))
 
     def do_mutation(self, i, p):
         if p[0] < self.rm:
@@ -762,9 +762,9 @@ class GaMrFjspNew(Ga):
             else:
                 # route1, route2 = self.pop[0][i].route, self.pop[0][j].route
                 route1, route2 = self.pop[0][i].route, self.pop_copy[0][j].route
-            # self.replace_individual(i, self.decode(code1, route=route1))
+            # self.replace_individual(i, self.test_decode(code1, route=route1))
             self.replace_individual_comp(i, self.decode(code1, route=route1), self.decode(code2, route=route2))
-            # self.replace_individual(j, self.decode(code2, route=route2))
+            # self.replace_individual(j, self.test_decode(code2, route=route2))
 
     def do_mutation(self, i, p):
         if p[0] < self.rm or p[1] < self.rm:
@@ -811,9 +811,9 @@ class GaFspHfsp(Ga):
         if p[0] < self.rc:
             # code1, code2 = self.pop[0][i].ga_crossover_sequence_permutation(self.pop[0][j])
             code1, code2 = self.pop[0][i].ga_crossover_sequence_permutation(self.pop_copy[0][j])
-            # self.replace_individual(i, self.decode(code1))
+            # self.replace_individual(i, self.test_decode(code1))
             self.replace_individual_comp(i, self.decode(code1), self.decode(code2))
-            # self.replace_individual(j, self.decode(code2))
+            # self.replace_individual(j, self.test_decode(code2))
 
     def do_mutation(self, i, p):
         if p[0] < self.rm:
