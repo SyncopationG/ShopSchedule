@@ -24,7 +24,8 @@ def run(instance="real1"):
 
 
 def main():
-    for instance in INSTANCE_LIST_HFSP.split():
+    # for instance in INSTANCE_LIST_HFSP.split():
+    for instance in hfsp_benchmark.instance.keys():
         run(instance=instance)
 
 

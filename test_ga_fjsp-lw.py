@@ -20,13 +20,14 @@ def main(instance="example"):
     ga.schedule.ga_operator[Mutation.name] = Mutation.tpe
     ga.schedule.ga_operator[Selection.name] = Selection.roulette
     # ga.schedule.para_key_block_move = False # 不可用，存在问题待解决
-    ga.schedule.para_tabu = False
-    ga.schedule.para_dislocation = False
+    ga.schedule.para_tabu = True
+    ga.schedule.para_dislocation = True
     GaTemplate(save="GA_LWFJSP", instance=instance, ga=ga, n_exp=N_EXP)
 
 
 def exp():
-    for instance in INSTANCE_LIST_LWFJSP.split():
+    # for instance in INSTANCE_LIST_LWFJSP.split():
+    for instance in fjsp_benchmark.instance.keys():
         main(instance=instance)
 
 

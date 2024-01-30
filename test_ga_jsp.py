@@ -33,7 +33,8 @@ def main(instance="example"):
 
 
 def exp():
-    for instance in INSTANCE_LIST_JSP.split():
+    # for instance in INSTANCE_LIST_JSP.split():
+    for instance in jsp_benchmark.instance.keys():
         main(instance=instance)
 
 

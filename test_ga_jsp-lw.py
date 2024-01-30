@@ -19,14 +19,15 @@ def main(instance="example"):
     ga.schedule.ga_operator[Crossover.name] = Crossover.ox
     ga.schedule.ga_operator[Mutation.name] = Mutation.tpe
     ga.schedule.ga_operator[Selection.name] = Selection.roulette
-    ga.schedule.para_key_block_move = False
-    ga.schedule.para_tabu = False
-    ga.schedule.para_dislocation = False
+    ga.schedule.para_key_block_move = True
+    ga.schedule.para_tabu = True
+    ga.schedule.para_dislocation = True
     GaTemplate(save="GA_LWJSP", instance=instance, ga=ga, n_exp=N_EXP)
 
 
 def exp():
-    for instance in INSTANCE_LIST_LWJSP.split():
+    # for instance in INSTANCE_LIST_LWJSP.split():
+    for instance in jsp_benchmark.instance.keys():
         main(instance=instance)
 
 

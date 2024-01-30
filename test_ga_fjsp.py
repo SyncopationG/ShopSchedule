@@ -23,8 +23,8 @@ def main(instance="example"):
 
 
 def exp():
-    for instance in INSTANCE_LIST_FJSP.split():
-    # for instance in fjsp_benchmark.instance.keys():
+    # for instance in INSTANCE_LIST_FJSP.split():
+    for instance in fjsp_benchmark.instance.keys():
         main(instance=instance)
 
 

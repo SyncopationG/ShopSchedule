@@ -28,7 +28,8 @@ def main(instance="example"):
 
 
 def exp():
-    for instance in INSTANCE_LIST_HFSP.split():
+    # for instance in INSTANCE_LIST_HFSP.split():
+    for instance in hfsp_benchmark.instance.keys():
         main(instance=instance)
 
 

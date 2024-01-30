@@ -22,17 +22,18 @@ def main(instance="example"):
     ga.schedule.ga_operator[Mutation.name] = Mutation.tpe
     ga.schedule.ga_operator[Selection.name] = Selection.roulette
     ga.schedule.para_tabu = True
-    ga.schedule.para_dislocation = False
+    ga.schedule.para_dislocation = True
     ga2.schedule.ga_operator[Crossover.name] = Crossover.pox
     ga2.schedule.ga_operator[Mutation.name] = Mutation.tpe
     ga2.schedule.ga_operator[Selection.name] = Selection.roulette
     ga2.schedule.para_tabu = True
-    ga2.schedule.para_dislocation = False
+    ga2.schedule.para_dislocation = True
     GaTemplate(save="GA_JSPWT", instance=instance, ga=ga, ga2=ga2, n_exp=N_EXP)
 
 
 def exp():
-    for instance in CASES_LIST.split():
+    # for instance in CASES_LIST.split():
+    for instance in jsp_simulation.case.keys():
         main(instance=instance)
 
 
