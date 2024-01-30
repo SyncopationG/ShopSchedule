@@ -50,7 +50,7 @@ class TimeTable:  # 工作时间表类
                     xticks.append(t)
                     label = m_start_date[i] + time_delta(0, int(f))
                     x_ticks_label.append(dt.strftime(label, "%Y-%m-%d %H:%M:%S"))
-        plt.xticks(xticks, x_ticks_label, rotation="90")
+        plt.xticks(xticks, x_ticks_label, rotation=90)
         m = len(rest_duration)
         plt.yticks(range(m), range(1, m + 1))
         plt.ylabel(ylabel)

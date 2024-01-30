@@ -21,7 +21,7 @@ def main(instance="DMFJS01"):
     ga.schedule.ga_operator[Crossover.name] = Crossover.ipox
     ga.schedule.ga_operator[Mutation.name] = Mutation.tpe
     ga.schedule.ga_operator[Selection.name] = Selection.roulette
-    ga.schedule.para_key_block_move = False
+    # ga.schedule.para_key_block_move = False # 不可用，存在问题待解决
     ga.schedule.para_tabu = False
     ga.schedule.para_dislocation = False
     GaTemplate(save="GA_DRCFJSP", instance=instance, ga=ga, n_exp=N_EXP)

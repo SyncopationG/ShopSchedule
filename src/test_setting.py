@@ -1,6 +1,6 @@
 from .utils import Utils
 
-N_EXP = 1  # 实验次数
+N_EXP = 10  # 实验次数
 
 dir_DecodeTest = "DecodeTest"
 DIR_RESULT = [
