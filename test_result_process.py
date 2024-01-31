@@ -2,11 +2,14 @@ __doc__ = """
 工具，结果汇总处理
 """
 
-import pandas as pd
 import os
-import numpy as np
 
-dir_result = r"GA_FJSPWT"
+import numpy as np
+import pandas as pd
+
+from src.test_setting import N_EXP
+
+dir_result = r"GA_HFSP"
 "================================================================================================================="
 dir_file = r"E:\Python\ShopSchedule\%s" % dir_result
 save_to = r"%s\%s.csv" % (dir_file, dir_result)
@@ -16,7 +19,7 @@ except FileNotFoundError:
     pass
 name_csv_file_list = [i for i in os.listdir(dir_file) if os.path.splitext(i)[1] == ".csv"]
 data = "group,case,min.,max.,avg.,std."
-for i in range(1, 11):
+for i in range(1, N_EXP + 1):
     data += ",%s" % i
 data += "\n"
 for name_csv_file in name_csv_file_list:

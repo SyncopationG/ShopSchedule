@@ -9,7 +9,7 @@ class Fjsp(Schedule):
     def __init__(self):
         Schedule.__init__(self)
 
-    def decode(self, code, mac, route=None, direction=None):
+    def decode(self, code, mac, route=None, direction=None, *args, **kwargs):
         self.clear(route)
         if direction not in [0, 1]:
             self.direction = Utils.direction()
@@ -29,7 +29,7 @@ class Fjsp(Schedule):
             self.decode_add_limited_wait(i, j, u, mac=mac)
         return Info(self, code, mac=mac, route=route)
 
-    def decode_new(self, code, route=None, direction=None):
+    def decode_new(self, code, route=None, direction=None, strategy=0):
         self.clear(route)
         if direction not in [0, 1]:
             self.direction = Utils.direction()
@@ -68,10 +68,14 @@ class Fjsp(Schedule):
                         index.append(r)
                         duration.append(p)
                         break
-            index_min_end = np.argwhere(np.array(end) == min(end))[:, 0]
-            duration_in_min_end = np.array([duration[i] for i in index_min_end])
+            index_min_strategy_list = [
+                np.argwhere(np.array(start) == min(start))[:, 0],  # 最早开始加工
+                np.argwhere(np.array(end) == min(end))[:, 0]  # 最早结束加工
+            ]
+            index_min_strategy = index_min_strategy_list[strategy]
+            duration_in_min_end = np.array([duration[i] for i in index_min_strategy])
             choice_min_end_and_duration = np.argwhere(duration_in_min_end == np.min(duration_in_min_end))[:, 0]
-            choice = index_min_end[np.random.choice(choice_min_end_and_duration, 1, replace=False)[0]]
+            choice = index_min_strategy[np.random.choice(choice_min_end_and_duration, 1, replace=False)[0]]
             k, p, r = self.job[i].task[j].machine[choice], duration[choice], index[choice]
             mac[i][j] = k
             self.job[i].task[j].start = start[choice]
@@ -81,31 +85,31 @@ class Fjsp(Schedule):
             self.decode_add_limited_wait(i, j, u, mac=mac)
         return Info(self, code, mac=mac, route=route)
 
-    def decode_limited_wait(self, code, mac, route=None, direction=None):
+    def decode_limited_wait(self, code, mac, route=None, direction=None, *args, **kwargs):
         info = self.decode(code, mac, route, direction)
         info.std_code()
         info2 = self.decode(info.code, info.mac, info.route, info.schedule.direction)
         info = info if info.schedule.makespan < info2.schedule.makespan else info2
         return info
 
-    def decode_limited_wait_new(self, code, route=None, direction=None):
-        info = self.decode_new(code, route, direction)
+    def decode_limited_wait_new(self, code, route=None, direction=None, strategy=0):
+        info = self.decode_new(code, route, direction, strategy)
         info.std_code()
         info2 = self.decode(info.code, info.mac, info.route, info.schedule.direction)
         info = info if info.schedule.makespan < info2.schedule.makespan else info2
         return info
 
-    def decode_no_wait(self, code, mac, p, route=None, direction=None):
+    def decode_no_wait(self, code, mac, p, route=None, direction=None, *args, **kwargs):
         info = self.decode(self.trans_job2operation_based(code, p), mac, route, direction)
         info.code = code
         return info
 
-    def decode_no_wait_new(self, code, p, route=None, direction=None):
-        info = self.decode_new(self.trans_job2operation_based(code, p), route, direction)
+    def decode_no_wait_new(self, code, p, route=None, direction=None, strategy=0):
+        info = self.decode_new(self.trans_job2operation_based(code, p), route, direction, strategy)
         info.code = code
         return info
 
-    def decode_worker(self, code, mac, wok=None, direction=None):
+    def decode_worker(self, code, mac, wok=None, direction=None, *args, **kwargs):
         self.clear()
         if direction not in [0, 1]:
             self.direction = Utils.direction()
@@ -131,7 +135,7 @@ class Fjsp(Schedule):
             self.decode_add_limited_wait(i, j, u, mac=mac, wok=wok)
         return Info(self, code, mac=mac, wok=wok)
 
-    def decode_worker_new(self, code, direction=None):
+    def decode_worker_new(self, code, direction=None, strategy=0):
         self.clear()
         if direction not in [0, 1]:
             self.direction = Utils.direction()
@@ -177,19 +181,23 @@ class Fjsp(Schedule):
                             t_end.append(res2)
                             t_index.append(r)
                             break
-                index_min_end = np.argwhere(np.array(t_end) == min(t_end))[:, 0]
-                duration_in_min_end = np.array([p_list[i] for i in index_min_end])
+                index_min_strategy_list = [
+                    np.argwhere(np.array(t_start) == min(t_start))[:, 0],  # 最早开始加工
+                    np.argwhere(np.array(t_end) == min(t_end))[:, 0]  # 最早结束加工
+                ]
+                index_min_strategy = index_min_strategy_list[strategy]
+                duration_in_min_end = np.array([p_list[i] for i in index_min_strategy])
                 choice_min_end_and_duration = np.argwhere(duration_in_min_end == np.min(duration_in_min_end))[:, 0]
-                choice = index_min_end[np.random.choice(choice_min_end_and_duration, 1, replace=False)[0]]
+                choice = index_min_strategy[np.random.choice(choice_min_end_and_duration, 1, replace=False)[0]]
                 start.append(t_start[choice])
                 end.append(t_end[choice])
                 index.append(t_index[choice])
                 duration.append(p_list[choice])
                 worker.append(w_list[choice])
-            index_min_end = np.argwhere(np.array(end) == min(end))[:, 0]
-            duration_in_min_end = np.array([duration[i] for i in index_min_end])
+            index_min_strategy = np.argwhere(np.array(end) == min(end))[:, 0]
+            duration_in_min_end = np.array([duration[i] for i in index_min_strategy])
             choice_min_end_and_duration = np.argwhere(duration_in_min_end == np.min(duration_in_min_end))[:, 0]
-            choice = index_min_end[np.random.choice(choice_min_end_and_duration, 1, replace=False)[0]]
+            choice = index_min_strategy[np.random.choice(choice_min_end_and_duration, 1, replace=False)[0]]
             k, w, p, r = self.job[i].task[j].machine[choice], worker[choice], duration[choice], index[choice]
             mac[i][j], wok[i][j] = k, w
             self.job[i].task[j].start = self.worker[w].start = start[choice]

@@ -15,6 +15,7 @@ def main(instance="DMFJS01"):
                                     time_unit=time_unit)
     ga = GaDrcFjspNew(pop_size=POP_SIZE, rc=RC, rm=RM, max_generation=MAX_GENERATION, objective=Objective.makespan,
                       schedule=problem, max_stay_generation=MAX_STAY_GENERATION)
+    ga.strategy = 1  # 0：最早加工开始时间解码，1：最早加工完工时间解码
     ga.schedule.ga_operator[Crossover.name] = Crossover.ipox
     ga.schedule.ga_operator[Mutation.name] = Mutation.tpe
     ga.schedule.ga_operator[Selection.name] = Selection.roulette

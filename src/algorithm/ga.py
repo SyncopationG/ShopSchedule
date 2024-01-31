@@ -327,9 +327,9 @@ class GaLwJsp(GaJsp):
         return self.schedule.decode_limited_wait(code, direction=self.direction)
 
 
-class GaMrJsp(Ga):
+class GaMrJsp(GaJsp):
     def __init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_stay_generation=None):
-        Ga.__init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_stay_generation)
+        GaJsp.__init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_stay_generation)
 
     def decode(self, code, mac=None, route=None, wok=None):
         return self.schedule.decode(code, route, direction=self.direction)
@@ -413,9 +413,9 @@ class GaLwJspNew2(GaJsp):
         return self.schedule.decode_limited_wait_new_twice(code, direction=self.direction)
 
 
-class GaMrJspNew(GaMrJsp):
+class GaMrJspNew(GaJsp):
     def __init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_stay_generation=None):
-        GaMrJsp.__init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_stay_generation)
+        GaJsp.__init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_stay_generation)
 
     def decode(self, code, mac=None, route=None, wok=None):
         return self.schedule.decode_new(code, route=route, direction=self.direction)
@@ -424,9 +424,10 @@ class GaMrJspNew(GaMrJsp):
 class GaFjsp(Ga):
     def __init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_stay_generation=None):
         Ga.__init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_stay_generation)
+        self.strategy = 0
 
     def decode(self, code, mac=None, route=None, wok=None):
-        return self.schedule.decode(code, mac, direction=self.direction)
+        return self.schedule.decode(code, mac, direction=self.direction, strategy=self.strategy)
 
     def do_init(self, pop=None):
         self.record[0].append(time.perf_counter())
@@ -492,15 +493,15 @@ class GaLwFjsp(GaFjsp):
         GaFjsp.__init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_stay_generation)
 
     def decode(self, code, mac=None, route=None, wok=None):
-        return self.schedule.decode_limited_wait(code, mac, direction=self.direction)
+        return self.schedule.decode_limited_wait(code, mac, direction=self.direction, strategy=self.strategy)
 
 
-class GaMrFjsp(Ga):
+class GaMrFjsp(GaFjsp):
     def __init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_stay_generation=None):
-        Ga.__init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_stay_generation)
+        GaFjsp.__init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_stay_generation)
 
     def decode(self, code, mac=None, route=None, wok=None):
-        return self.schedule.decode(code, mac, route, direction=self.direction)
+        return self.schedule.decode(code, mac, route, direction=self.direction, strategy=self.strategy)
 
     def do_init(self, pop=None):
         self.record[0].append(time.perf_counter())
@@ -577,12 +578,12 @@ class GaMrFjsp(Ga):
         self.replace_individual_better(i, self.decode(code1, mac1, self.pop[0][i].route))
 
 
-class GaDrcFjsp(Ga):
+class GaDrcFjsp(GaFjsp):
     def __init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_stay_generation=None):
-        Ga.__init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_stay_generation)
+        GaFjsp.__init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_stay_generation)
 
     def decode(self, code, mac=None, route=None, wok=None):
-        return self.schedule.decode_worker(code, mac, wok, direction=self.direction)
+        return self.schedule.decode_worker(code, mac, wok, direction=self.direction, strategy=self.strategy)
 
     def do_init(self, pop=None):
         self.record[0].append(time.perf_counter())
@@ -660,12 +661,12 @@ class GaDrcFjsp(Ga):
         self.replace_individual_better(i, self.decode(code1, mac1, wok=wok1))
 
 
-class GaFjspNew(Ga):
+class GaFjspNew(GaFjsp):
     def __init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_stay_generation=None):
-        Ga.__init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_stay_generation)
+        GaFjsp.__init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_stay_generation)
 
     def decode(self, code, mac=None, route=None, wok=None):
-        return self.schedule.decode_new(code, direction=self.direction)
+        return self.schedule.decode_new(code, direction=self.direction, strategy=self.strategy)
 
     def do_init(self, pop=None):
         self.record[0].append(time.perf_counter())
@@ -713,7 +714,7 @@ class GaLwFjspNew(GaFjspNew):
         GaFjspNew.__init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_stay_generation)
 
     def decode(self, code, mac=None, route=None, wok=None):
-        return self.schedule.decode_limited_wait_new(code, direction=self.direction)
+        return self.schedule.decode_limited_wait_new(code, direction=self.direction, strategy=self.strategy)
 
 
 class GaDrcFjspNew(GaFjspNew):
@@ -721,15 +722,15 @@ class GaDrcFjspNew(GaFjspNew):
         GaFjspNew.__init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_stay_generation)
 
     def decode(self, code, mac=None, route=None, wok=None):
-        return self.schedule.decode_worker_new(code, direction=self.direction)
+        return self.schedule.decode_worker_new(code, direction=self.direction, strategy=self.strategy)
 
 
-class GaMrFjspNew(Ga):
+class GaMrFjspNew(GaFjsp):
     def __init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_stay_generation=None):
-        Ga.__init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_stay_generation)
+        GaFjsp.__init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_stay_generation)
 
     def decode(self, code, mac=None, route=None, wok=None):
-        return self.schedule.decode_new(code, route, direction=self.direction)
+        return self.schedule.decode_new(code, route, direction=self.direction, strategy=self.strategy)
 
     def do_init(self, pop=None):
         self.record[0].append(time.perf_counter())
@@ -789,9 +790,10 @@ class GaMrFjspNew(Ga):
 class GaFspHfsp(Ga):
     def __init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_stay_generation=None):
         Ga.__init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_stay_generation)
+        self.strategy = 0
 
     def decode(self, code, mac=None, route=None, wok=None):
-        return self.schedule.decode(code)
+        return self.schedule.decode(code, strategy=self.strategy)
 
     def do_init(self, pop=None):
         self.record[0].append(time.perf_counter())
@@ -833,7 +835,7 @@ class GaFspHfspWorkTimetable(GaFspHfsp):
         GaFspHfsp.__init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_stay_generation)
 
     def decode(self, code, mac=None, route=None, wok=None):
-        return self.schedule.decode_work_timetable(code)
+        return self.schedule.decode_work_timetable(code, strategy=self.strategy)
 
 
 class GaHfspConsiderTrans(GaFspHfsp):
@@ -841,4 +843,4 @@ class GaHfspConsiderTrans(GaFspHfsp):
         GaFspHfsp.__init__(self, pop_size, rc, rm, max_generation, objective, schedule, max_stay_generation)
 
     def decode(self, code, mac=None, route=None, wok=None):
-        return self.schedule.decode_with_trans(code)
+        return self.schedule.decode_with_trans(code, strategy=self.strategy)

@@ -12,7 +12,7 @@ class Fsp(Schedule):
     def __init__(self):
         Schedule.__init__(self)
 
-    def decode(self, code):
+    def decode(self, code, *args, **kwargs):
         self.clear()
         for i in code:
             for j in range(self.job[i].nop):
@@ -45,7 +45,7 @@ class Fsp(Schedule):
                             self.machine[k].end = self.job[i].task[j_end2head - 1].end
         return Info(self, code)
 
-    def decode_work_timetable(self, code):
+    def decode_work_timetable(self, code, *args, **kwargs):
         self.clear()
         copy_code = deepcopy(code)
         j = 0

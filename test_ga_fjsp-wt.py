@@ -18,11 +18,13 @@ def main(instance="example"):
                    schedule=problem, max_stay_generation=MAX_STAY_GENERATION)
     ga2 = GaFjspNew(pop_size=ga.pop_size, rc=ga.rc, rm=ga.rm, max_generation=MAX_GENERATION2,
                     objective=Objective.makespan, schedule=problem2, max_stay_generation=MAX_STAY_GENERATION2)
+    ga.strategy = 1  # 0：最早加工开始时间解码，1：最早加工完工时间解码
     ga.schedule.ga_operator[Crossover.name] = Crossover.pox
     ga.schedule.ga_operator[Mutation.name] = Mutation.tpe
     ga.schedule.ga_operator[Selection.name] = Selection.roulette
     ga.schedule.para_tabu = True
     ga.schedule.para_dislocation = True
+    ga2.strategy = 1  # 0：最早加工开始时间解码，1：最早加工完工时间解码
     ga2.schedule.ga_operator[Crossover.name] = Crossover.pox
     ga2.schedule.ga_operator[Mutation.name] = Mutation.tpe
     ga2.schedule.ga_operator[Selection.name] = Selection.roulette

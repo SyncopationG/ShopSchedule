@@ -39,51 +39,57 @@ class Node:
 
 
 class GanttChart:
-    def __init__(self, file=None, schedule=None, mac=None, wok=None):
+    def __init__(self, g_file=None, schedule=None, mac=None, wok=None):
         self.schedule = schedule
         self.mac = mac
         self.wok = wok
-        if file is not None:
-            from .shop.schedule import Schedule
-            self.data = pd.read_csv(file)
-            self.n = max(self.data.loc[:, "Job"])
-            self.m = max(self.data.loc[:, "Machine"])
-            self.w = max(self.data.loc[:, "Worker"])
-            self.makespan = max(self.data.loc[:, "End"])
-            self.schedule = Schedule()
-            if self.data.loc[0, "Start"] > self.data.loc[1, "Start"]:
-                self.schedule.direction = 1
-            else:
-                self.schedule.direction = 0
-            self.schedule.with_key_block = True
-            for i in range(self.m):
-                self.schedule.add_machine(name=i, index=i)
-            for i in range(self.n):
-                self.schedule.add_job(name=i, index=i)
-            try:
-                for i in range(self.w):
-                    self.schedule.add_worker(name=i, index=i)
-                self.wok = [[] for _ in range(self.n)]
-            except TypeError:
-                self.w = None
-            for g, (start, operation, job, machine, end, duration, worker) in enumerate(zip(
-                    self.data.loc[:, "Start"], self.data.loc[:, "Operation"], self.data.loc[:, "Job"],
-                    self.data.loc[:, "Machine"], self.data.loc[:, "End"], self.data.loc[:, "Duration"],
-                    self.data.loc[:, "Worker"])):
-                job, operation, machine = job - 1, operation - 1, machine - 1
-                if self.w is not None:
-                    worker -= 1
-                    self.wok[job].append(worker)
-                    self.schedule.worker[worker].index_list.append(g)
-                for i, val in enumerate([start, operation, job, machine, end, worker]):
-                    self.schedule.sjikew[i] = np.append(self.schedule.sjikew[i], val)
-                self.schedule.job[job].add_task(machine=machine, duration=duration, name=operation, index=operation)
-                self.schedule.job[job].task[operation].start = start
-                self.schedule.job[job].task[operation].end = end
-                self.schedule.job[job].index_list.append(g)
-                self.schedule.machine[machine].index_list.append(g)
-                if end > self.schedule.machine[machine].end:
-                    self.schedule.machine[machine].end = end
+        self.g_file = g_file
+        self.data = None
+        self.n = None
+        self.m = None
+
+    def do_load_gFile(self, g_file=None):
+        self.g_file = g_file if g_file is not None else self.g_file
+        from .shop.schedule import Schedule
+        self.data = pd.read_csv(self.g_file)
+        self.n = max(self.data.loc[:, "Job"])
+        self.m = max(self.data.loc[:, "Machine"])
+        self.w = max(self.data.loc[:, "Worker"])
+        # self.makespan = max(self.data.loc[:, "End"])
+        self.schedule = Schedule()
+        if self.data.loc[0, "Start"] > self.data.loc[1, "Start"]:
+            self.schedule.direction = 1
+        else:
+            self.schedule.direction = 0
+        self.schedule.with_key_block = True
+        for i in range(self.m):
+            self.schedule.add_machine(name=i, index=i)
+        for i in range(self.n):
+            self.schedule.add_job(name=i, index=i)
+        try:
+            for i in range(self.w):
+                self.schedule.add_worker(name=i, index=i)
+            self.wok = [[] for _ in range(self.n)]
+        except TypeError:
+            self.w = None
+        for g, (start, operation, job, machine, end, duration, worker) in enumerate(zip(
+                self.data.loc[:, "Start"], self.data.loc[:, "Operation"], self.data.loc[:, "Job"],
+                self.data.loc[:, "Machine"], self.data.loc[:, "End"], self.data.loc[:, "Duration"],
+                self.data.loc[:, "Worker"])):
+            job, operation, machine = job - 1, operation - 1, machine - 1
+            if self.w is not None:
+                worker -= 1
+                self.wok[job].append(worker)
+                self.schedule.worker[worker].index_list.append(g)
+            for i, val in enumerate([start, operation, job, machine, end, worker]):
+                self.schedule.sjikew[i] = np.append(self.schedule.sjikew[i], val)
+            self.schedule.job[job].add_task(machine=machine, duration=duration, name=operation, index=operation)
+            self.schedule.job[job].task[operation].start = start
+            self.schedule.job[job].task[operation].end = end
+            self.schedule.job[job].index_list.append(g)
+            self.schedule.machine[machine].index_list.append(g)
+            if end > self.schedule.machine[machine].end:
+                self.schedule.machine[machine].end = end
 
     def not_dummy(self, i):
         return True if self.schedule.sjikew[0][i] != self.schedule.sjikew[4][i] else False

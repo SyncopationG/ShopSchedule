@@ -5,6 +5,7 @@ __doc__ = """
 from src import *
 from src.test_parameter_ga_nsga import *
 
+
 def main(instance="example"):
     time_unit = 1
     a = fjsp_benchmark.instance[instance]
@@ -13,6 +14,7 @@ def main(instance="example"):
     problem = Utils.create_schedule(Fjsp, n, m, p, tech, proc, best_known=best_known, time_unit=time_unit)
     ga = GaFjspNew(pop_size=POP_SIZE, rc=RC, rm=RM, max_generation=MAX_GENERATION, objective=Objective.makespan,
                    schedule=problem, max_stay_generation=MAX_STAY_GENERATION)
+    ga.strategy = 1  # 0：最早加工开始时间解码，1：最早加工完工时间解码
     ga.schedule.ga_operator[Crossover.name] = Crossover.dpox
     ga.schedule.ga_operator[Mutation.name] = Mutation.tpe
     ga.schedule.ga_operator[Selection.name] = Selection.roulette
@@ -23,8 +25,8 @@ def main(instance="example"):
 
 
 def exp():
-    # for instance in INSTANCE_LIST_FJSP.split():
-    for instance in fjsp_benchmark.instance.keys():
+    for instance in INSTANCE_LIST_FJSP.split():
+    # for instance in fjsp_benchmark.instance.keys():
         main(instance=instance)
 
 

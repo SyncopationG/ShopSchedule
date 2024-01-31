@@ -12,12 +12,7 @@ class Hfsp(Schedule):
     def __init__(self):
         Schedule.__init__(self)
 
-    def decode_rk(self, perm, code):
-        res = self.decode(perm[np.argsort(code)])
-        res.code = code
-        return res
-
-    def decode(self, code):
+    def decode(self, code, strategy=0):
         self.clear()
         copy_code = deepcopy(code)
         mac, j = [[None for _ in range(job.nop)] for job in self.job.values()], 0
@@ -42,10 +37,14 @@ class Hfsp(Schedule):
                             duration.append(p)
                             index.append(r)
                             break
-                index_min_end = np.argwhere(np.array(end) == min(end))[:, 0]
-                duration_in_min_end = np.array([duration[i] for i in index_min_end])
+                index_min_strategy_list = [
+                    np.argwhere(np.array(start) == min(start))[:, 0],  # 最早开始加工
+                    np.argwhere(np.array(end) == min(end))[:, 0]  # 最早结束加工
+                ]
+                index_min_strategy = index_min_strategy_list[strategy]
+                duration_in_min_end = np.array([duration[i] for i in index_min_strategy])
                 choice_min_end_and_duration = np.argwhere(duration_in_min_end == np.min(duration_in_min_end))[:, 0]
-                choice = index_min_end[np.random.choice(choice_min_end_and_duration, 1, replace=False)[0]]
+                choice = index_min_strategy[np.random.choice(choice_min_end_and_duration, 1, replace=False)[0]]
                 k, p, r = self.job[i].task[j].machine[choice], duration[choice], index[choice]
                 mac[i][j] = k
                 self.job[i].task[j].start = start[choice]
@@ -59,8 +58,13 @@ class Hfsp(Schedule):
             j += 1
         return Info(self, code, mac=mac)
 
-    def decode_work_timetable(self, code):
-        return self.decode(code)
+    def decode_work_timetable(self, code, strategy=0):
+        return self.decode(code, strategy)
+
+    def decode_rk(self, perm, code, strategy=0):
+        res = self.decode(perm[np.argsort(code)], strategy)
+        res.code = code
+        return res
 
     def decode_hfsp(self, code, mac):
         self.clear()
@@ -94,7 +98,7 @@ class Hfsp(Schedule):
             j += 1
         return Info(self, code, mac=mac)
 
-    def decode_with_trans(self, code):  # 基于最早完工时间和最小加工时间策略指派机器的解码算法，考虑机器之间的运输时间
+    def decode_with_trans(self, code, strategy=0):  # 基于最早完工时间和最小加工时间策略指派机器的解码算法，考虑机器之间的运输时间
         self.clear()
         copy_code = deepcopy(code)
         mac, j = [[None for _ in range(job.nop)] for job in self.job.values()], 0
@@ -120,10 +124,14 @@ class Hfsp(Schedule):
                             duration.append(p)
                             index.append(r)
                             break
-                index_min_end = np.argwhere(np.array(end) == min(end))[:, 0]
-                duration_in_min_end = np.array([duration[i] for i in index_min_end])
+                index_min_strategy_list = [
+                    np.argwhere(np.array(start) == min(start))[:, 0],  # 最早开始加工
+                    np.argwhere(np.array(end) == min(end))[:, 0]  # 最早结束加工
+                ]
+                index_min_strategy = index_min_strategy_list[strategy]
+                duration_in_min_end = np.array([duration[i] for i in index_min_strategy])
                 choice_min_end_and_duration = np.argwhere(duration_in_min_end == np.min(duration_in_min_end))[:, 0]
-                choice = index_min_end[np.random.choice(choice_min_end_and_duration, 1, replace=False)[0]]
+                choice = index_min_strategy[np.random.choice(choice_min_end_and_duration, 1, replace=False)[0]]
                 k, p, r = self.job[i].task[j].machine[choice], duration[choice], index[choice]
                 mac[i][j] = k
                 self.job[i].task[j].start = start[choice]

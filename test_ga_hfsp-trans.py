@@ -15,9 +15,12 @@ def main(instance="example"):
     n, m, p, tech, proc = Utils.string2data_hfsp(a, int, time_unit)
     trans = Utils.string2trans_time(b, int, time_unit)
     best_known = None
-    problem = Utils.create_schedule_trans(Hfsp, n, m, p, tech, proc, trans=trans, best_known=best_known, time_unit=time_unit)
-    ga = GaHfspConsiderTrans(pop_size=POP_SIZE, rc=RC, rm=RM, max_generation=MAX_GENERATION, objective=Objective.makespan,
+    problem = Utils.create_schedule_trans(Hfsp, n, m, p, tech, proc, trans=trans, best_known=best_known,
+                                          time_unit=time_unit)
+    ga = GaHfspConsiderTrans(pop_size=POP_SIZE, rc=RC, rm=RM, max_generation=MAX_GENERATION,
+                             objective=Objective.makespan,
                              schedule=problem, max_stay_generation=MAX_STAY_GENERATION)
+    ga.strategy = 1  # 0：最早加工开始时间解码，1：最早加工完工时间解码
     ga.schedule.ga_operator[Crossover.name] = Crossover.pmx
     ga.schedule.ga_operator[Mutation.name] = Mutation.tpe
     ga.schedule.ga_operator[Selection.name] = Selection.roulette

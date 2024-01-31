@@ -178,7 +178,7 @@ class NSSSAFHFSP(NSSSA):
         NSSSA.__init__(self, pop_size, st, pd, sd, sigma, max_generation, objective, schedule, max_rate_front1)
 
     def decode_update(self, code):
-        info = self.schedule.decode_rk(self.permutation, code)
+        info = self.schedule.decode_rk(self.permutation, code, stratege=0)
         self.update_child(info)
 
     def decode_update2(self, i, code):
