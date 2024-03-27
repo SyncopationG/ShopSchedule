@@ -9,7 +9,7 @@ import pandas as pd
 
 from src.test_setting import N_EXP
 
-dir_result = r"GA_HFSP"
+dir_result = r"GA_FjspNew_dpox"
 "================================================================================================================="
 dir_file = r"E:\Python\ShopSchedule\%s" % dir_result
 save_to = r"%s\%s.csv" % (dir_file, dir_result)

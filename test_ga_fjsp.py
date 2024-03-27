@@ -21,12 +21,12 @@ def main(instance="example"):
     # ga.schedule.para_key_block_move = False # 不可用，存在问题待解决
     ga.schedule.para_tabu = True
     ga.schedule.para_dislocation = True
-    GaTemplate(save="GA_FjspNew_dpox", instance=instance, ga=ga, n_exp=N_EXP)
+    GaTemplate(save="GA_FjspNew_dpox1-2", instance=instance, ga=ga, n_exp=N_EXP)
 
 
 def exp():
-    for instance in INSTANCE_LIST_FJSP.split():
-    # for instance in fjsp_benchmark.instance.keys():
+    # for instance in INSTANCE_LIST_FJSP.split():
+    for instance in fjsp_benchmark.instance.keys():
         main(instance=instance)
 
 

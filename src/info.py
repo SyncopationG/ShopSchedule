@@ -292,7 +292,7 @@ class GanttChart:
                     if task.block is not None:
                         edgecolor, linewidth = BLOCK_COLORS[task.block % LEN_BLOCK_COLORS], 2
                     plt.barh(
-                        y=y, width=width,
+                        y=y, width=width, height=height,
                         left=left, color=COLORS[y_values[y_based - 1] % LEN_COLORS],
                         edgecolor=edgecolor, linewidth=linewidth,
                     )
@@ -325,11 +325,12 @@ class GanttChart:
         if y_based == 0:
             if self.wok is None:
                 for job in self.schedule.job.values():
-                    plt.barh(0, 0, color=COLORS[job.index % LEN_COLORS], label=job.index + 1)
+                    plt.barh(0, 0, height=height, color=COLORS[job.index % LEN_COLORS], label=job.index + 1)
             else:
                 for worker in self.schedule.worker.values():
-                    plt.barh(0, 0, color=COLORS[worker.index % LEN_COLORS], label=worker.index + 1)
-            plt.barh(y=0, width=self.schedule.makespan / scale_more, left=self.schedule.makespan, color="white")
+                    plt.barh(0, 0, height=height, color=COLORS[worker.index % LEN_COLORS], label=worker.index + 1)
+            plt.barh(y=0, width=self.schedule.makespan / scale_more, height=height, left=self.schedule.makespan,
+                     color="white")
             if lang == 0:
                 title = r"${Job}$" if self.wok is None else r"${Worker}$"
             else:
@@ -337,8 +338,9 @@ class GanttChart:
             plt.legend(loc="best", title=title)
         if y_based == 1:
             for machine in self.schedule.machine.values():
-                plt.barh(0, 0, color=COLORS[machine.index % LEN_COLORS], label=machine.index + 1)
-            plt.barh(y=0, width=self.schedule.makespan / scale_more, left=self.schedule.makespan, color="white")
+                plt.barh(0, 0, height=height, color=COLORS[machine.index % LEN_COLORS], label=machine.index + 1)
+            plt.barh(y=0, width=self.schedule.makespan / scale_more, height=height, left=self.schedule.makespan,
+                     color="white")
             if lang == 0:
                 title = r"${Machine}$"
             else:
